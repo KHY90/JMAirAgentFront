@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "../styles/globals.css";
-import Header from "../(common)/header";
-import Footer from "../(common)/footer";
+import "./styles/globals.css"; 
+
+import Header from "./(common)/header";
+import Footer from "./(common)/footer";
 
 // 구글 폰트
 const geistSans = Geist({
@@ -28,14 +29,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="flex flex-col min-h-screen">
-        {/* 헤더 */}
-        <Header />
-        
-        {/* 메인 콘텐츠 */}
+        <Header /> 
         <main className="flex-1 w-full">{children}</main>
-
-        {/* 푸터 */}
-        <Footer />
+        <Footer /> 
       </body>
     </html>
   );
