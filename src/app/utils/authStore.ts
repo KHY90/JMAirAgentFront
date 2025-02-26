@@ -49,7 +49,7 @@ class AuthStore {
 
   // 로그아웃
   logout() {
-    document.cookie = "access_token=; max-age=864000; path=/;";
+    document.cookie = "access_token=; max-age=864000; path=/;"; // 만료 10일 후
     document.cookie = "refresh_token=; max-age=864000; path=/;";
     
     this.accessToken = null;
