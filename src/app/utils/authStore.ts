@@ -49,8 +49,8 @@ class AuthStore {
 
   // 로그아웃
   logout() {
-    document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    document.cookie = "refresh_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "access_token=; max-age=864000; path=/;";
+    document.cookie = "refresh_token=; max-age=864000; path=/;";
     
     this.accessToken = null;
     this.refreshToken = null;
