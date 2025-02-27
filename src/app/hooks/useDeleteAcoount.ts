@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 import authStore from "@/app/utils/authStore";
 
 // 회원탈퇴 훅스
@@ -16,24 +17,19 @@ export function useDeleteAccount() {
     setErrorMessage(null);
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/user/delete?userLogin=${authStore.user?.userLogin}`,
+      await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/user/delete`,
+        null,
         {
-          method: "PUT",
-          credentials: "include",
+          params: { userLogin: authStore.user?.userLogin },
+          withCredentials: true,
         }
       );
-
-      if (!response.ok) {
-        throw new Error("회원 탈퇴 실패");
-      }
 
       alert("회원 탈퇴가 완료되었습니다.");
 
       // 로그아웃 처리
       authStore.logout();
-
-      // 홈으로 이동
       router.push("/");
     } catch (error) {
       console.error("회원 탈퇴 오류:", error);

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 import authStore from "@/app/utils/authStore";
 
 export function useLogin() {
@@ -21,19 +22,14 @@ export function useLogin() {
     }
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/user/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(formData),
-      });
+      // 로그인 요청
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/user/login`,
+        formData,
+        { withCredentials: true } // 쿠키 포함
+      );
 
-      if (!response.ok) {
-        throw new Error("아이디 또는 비밀번호가 일치하지 않습니다.");
-      }
-
-      // 로그인 성공 시 응답 데이터 받아오기
-      const data = await response.json();
+      const data = response.data;
       console.log("로그인 응답 데이터:", data);
 
       if (data.user) {
