@@ -4,6 +4,13 @@ import { observer } from "mobx-react-lite";
 import authStore from "@/app/utils/authStore";
 
 const Header = observer(() => {
+  const handleLogout = () => {
+    const confirmLogout = window.confirm("정말 로그아웃 하시겠습니까?");
+    if (confirmLogout) {
+      authStore.logout();
+    }
+  };
+
   return (
     <header className="bg-white shadow-md">
       <div className="py-2 px-6 bg-gray-100">
@@ -13,7 +20,7 @@ const Header = observer(() => {
               <span className="text-gray-700">{authStore.user.userName}님, 환영합니다!</span>
               <Link href="/mypage" className="hover:text-blue-400">마이페이지</Link>
               <Link href="/admin" className="hover:text-blue-400">관리자</Link>
-              <button onClick={() => authStore.logout()} className="hover:text-red-400">
+              <button onClick={handleLogout} className="hover:text-red-400">
                 로그아웃
               </button>
             </>
