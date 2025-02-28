@@ -1,15 +1,15 @@
 "use client";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import SearchBar from "../../components/SearchBar";
 import Pagination from "../../components/Pagination";
 import SortBar from "../../components/SortBar";
+import { useEstimate, EstimateItem } from "../../hooks/useEstimate";
 
 export default function EstimatePage() {
   const router = useRouter();
 
   // 예시 데이터
-  const data = [
+  const data: EstimateItem[] = [
     { id: 1, title: "에어컨 설치 문의", applicant: "이영민", date: "2024-02-14" },
     { id: 2, title: "이영희", applicant: "이영희", date: "2024-02-13" },
     { id: 3, title: "박민준", applicant: "박민준", date: "2024-02-12" },
@@ -35,52 +35,30 @@ export default function EstimatePage() {
     { id: 24, title: "테스트", applicant: "테스터", date: "2024-02-10" },
   ];
 
-  // 검색 상태
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchField, setSearchField] = useState<"title" | "applicant">("title");
-  // 페이지네이션 상태
-  const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  // 정렬 상태
-  const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc");
-
-  // 필터된 데이터
-  const filteredData = data.filter((item) =>
-    searchField === "title"
-      ? item.title.includes(searchTerm)
-      : item.applicant.includes(searchTerm)
-  );
-
-  // 정렬 (날짜 기준)
-  const sortedData = [...filteredData].sort((a, b) => {
-    return sortOrder === "desc"
-      ? b.date.localeCompare(a.date)
-      : a.date.localeCompare(b.date);
-  });
-
-  // 페이지네이션 계산
-  const totalPages = Math.ceil(sortedData.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const displayedData = sortedData.slice(startIndex, startIndex + itemsPerPage);
+  const {
+    displayedData,
+    totalPages,
+    currentPage,
+    setSearch,
+    setPage,
+    setSortOrder,
+  } = useEstimate(data, itemsPerPage);
 
   const handleCreatePost = () => {
     router.push("/estimate/post");
   };
 
   const handleSearch = (field: "title" | "applicant", term: string) => {
-    setSearchField(field);
-    setSearchTerm(term);
-    setCurrentPage(1);
+    setSearch(field, term);
   };
 
   const handlePageChange = (page: number) => {
-    if (page < 1 || page > totalPages) return;
-    setCurrentPage(page);
+    setPage(page);
   };
 
   const handleSort = (order: "desc" | "asc") => {
     setSortOrder(order);
-    setCurrentPage(1);
   };
 
   return (
@@ -119,9 +97,7 @@ export default function EstimatePage() {
                   key={item.id}
                   className="border-b border-grayDark hover:bg-grayDark/40"
                 >
-                  <td className="py-3 px-4 text-center">
-                    {startIndex + idx + 1}
-                  </td>
+                  <td className="py-3 px-4 text-center">{(currentPage - 1) * itemsPerPage + idx + 1}</td>
                   <td className="py-3 px-4">{item.title}</td>
                   <td className="py-3 px-4 text-center">{item.applicant}</td>
                   <td className="py-3 px-4 text-center">{item.date}</td>
