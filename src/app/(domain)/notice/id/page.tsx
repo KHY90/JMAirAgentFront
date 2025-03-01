@@ -1,7 +1,6 @@
 "use client";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import NoticeSearchBar from "../../components/NoticeSearchBar";
+import SearchBar from "../../components/SearchBar";
 import SortBar from "../../components/SortBar";
 import Pagination from "../../components/Pagination";
 import { NoticeItem, useNotice } from "../../hooks/useNotice";
@@ -16,12 +15,10 @@ export default function NoticePage() {
     { id: 3, title: "이벤트 당첨자 발표", writer: "마케팅", date: "2024-02-08" },
     { id: 4, title: "서비스 점검 공지", writer: "관리자", date: "2024-02-05" },
     { id: 5, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01" },
-    // ... 더 많은 데이터
   ];
 
   const itemsPerPage = 5;
 
-  // useNotice 훅 사용
   const {
     displayedData,
     totalPages,
@@ -44,12 +41,6 @@ export default function NoticePage() {
   // 페이지 변경 콜백
   const handlePageChange = (page: number) => {
     setPage(page);
-  };
-
-  // 제목 클릭 시 상세 페이지로 이동
-  // (예: /notice/[id] 형태로 라우팅)
-  const handleTitleClick = (id: number) => {
-    router.push(`/notice/${id}`);
   };
 
   return (
@@ -85,12 +76,7 @@ export default function NoticePage() {
                   <td className="py-3 px-4 text-center">
                     {(currentPage - 1) * itemsPerPage + idx + 1}
                   </td>
-                  <td
-                    className="py-3 px-4 cursor-pointer text-blue-500 hover:underline"
-                    onClick={() => handleTitleClick(notice.id)}
-                  >
-                    {notice.title}
-                  </td>
+                  <td className="py-3 px-4">{notice.title}</td>
                   <td className="py-3 px-4 text-center">{notice.writer}</td>
                   <td className="py-3 px-4 text-center">{notice.date}</td>
                 </tr>
@@ -108,7 +94,8 @@ export default function NoticePage() {
 
         {/* 검색창 */}
         <div className="container mx-auto px-4 mt-4 flex justify-center">
-          <NoticeSearchBar onSearch={handleSearch} />
+          {/* SearchBar는 onSearch에 (field, term)을 넘겨주어야 함 */}
+          <SearchBar onSearch={handleSearch} />
         </div>
 
         {/* 페이지네이션 */}
