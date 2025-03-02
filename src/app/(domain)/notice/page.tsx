@@ -83,9 +83,9 @@ export default function NoticePage() {
               <tr>
                 <th className="py-3 px-4 w-16">번호</th>
                 <th className="py-3 px-4">제목</th>
-                <th className="py-3 px-4 w-32">작성자</th>
-                <th className="py-3 px-4 w-32">작성일</th>
-                <th className="py-3 px-4 w-24">조회수</th>
+                <th className="py-3 px-4 w-32 text-center">작성자</th>
+                <th className="py-3 px-4 w-32 text-center">작성일</th>
+                <th className="py-3 px-4 w-24 text-center">조회수</th>
               </tr>
             </thead>
             <tbody>
@@ -94,20 +94,30 @@ export default function NoticePage() {
                   key={notice.id}
                   className="border-b border-grayDark hover:bg-grayDark/40"
                 >
+                  {/* 번호 (왼쪽 정렬 or 중앙정렬) */}
                   <td className="py-3 px-4 text-center">
                     {(currentPage - 1) * itemsPerPage + idx + 1}
                   </td>
+
+                  {/* 제목 (검정색, 밑줄 없음, 가운데 정렬은 아니고 왼쪽) */}
                   <td
-                    className="py-3 px-4 cursor-pointer text-blue-500 hover:underline"
+                    className="py-3 px-4 cursor-pointer text-black"
                     onClick={() => handleTitleClick(notice.id)}
                   >
                     {notice.title}
                   </td>
+
+                  {/* 작성자 (중앙정렬) */}
                   <td className="py-3 px-4 text-center">{notice.writer}</td>
+
+                  {/* 작성일 (중앙정렬) */}
                   <td className="py-3 px-4 text-center">{notice.date}</td>
+
+                  {/* 조회수 (중앙정렬) */}
                   <td className="py-3 px-4 text-center">{notice.viewCount}</td>
                 </tr>
               ))}
+
               {displayedData.length === 0 && (
                 <tr>
                   <td colSpan={5} className="py-3 px-4 text-center text-gray-400">
