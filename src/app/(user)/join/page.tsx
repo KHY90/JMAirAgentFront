@@ -45,6 +45,14 @@ export default function JoinPage() {
     }
   };
 
+  // 취소 버튼 핸들러
+  const handleCancel = () => {
+    const confirmCancel = window.confirm("회원가입을 취소하시겠습니까?");
+    if (confirmCancel) {
+      router.back();
+    }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
@@ -125,9 +133,22 @@ export default function JoinPage() {
           />
           {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
 
-          <button type="submit" className="w-full bg-blue-500 text-white py-3 rounded-md hover:bg-blue-600">
-            회원가입
-          </button>
+          {/* 회원가입 & 취소 버튼 */}
+          <div className="flex space-x-2 w-full">
+            <button
+              type="submit"
+              className="w-[70%] bg-blue-500 text-white py-3 rounded-md hover:bg-blue-600"
+            >
+              회원가입
+            </button>
+            <button
+              type="button"
+              onClick={handleCancel}
+              className="w-[30%] bg-gray-300 text-black py-3 rounded-md hover:bg-danger"
+            >
+              취소
+            </button>
+          </div>
         </form>
       </div>
     </div>
