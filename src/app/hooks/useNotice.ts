@@ -6,6 +6,7 @@ export interface NoticeItem {
   title: string;
   writer: string;
   date: string;
+  viewCount: number;
 }
 
 export type SearchField = "title" | "writer";

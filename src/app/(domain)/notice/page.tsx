@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import NoticeSearchBar from "../../components/NoticeSearchBar";
 import SortBar from "../../components/SortBar";
@@ -11,17 +10,30 @@ export default function NoticePage() {
 
   // 예시 공지사항 데이터
   const data: NoticeItem[] = [
-    { id: 1, title: "새로운 업데이트 안내", writer: "관리자", date: "2024-02-15" },
-    { id: 2, title: "설 연휴 휴무 안내", writer: "운영팀", date: "2024-02-10" },
-    { id: 3, title: "이벤트 당첨자 발표", writer: "마케팅", date: "2024-02-08" },
-    { id: 4, title: "서비스 점검 공지", writer: "관리자", date: "2024-02-05" },
-    { id: 5, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01" },
-    // ... 더 많은 데이터
+    { id: 1, title: "새로운 업데이트 안내", writer: "관리자", date: "2024-02-15", viewCount: 120 },
+    { id: 2, title: "설 연휴 휴무 안내", writer: "운영팀", date: "2024-02-10", viewCount: 85 },
+    { id: 3, title: "이벤트 당첨자 발표", writer: "마케팅", date: "2024-02-08", viewCount: 95 },
+    { id: 4, title: "서비스 점검 공지", writer: "관리자", date: "2024-02-05", viewCount: 110 },
+    { id: 5, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
+    { id: 6, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
+    { id: 7, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
+    { id: 8, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
+    { id: 9, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
+    { id: 10, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
+    { id: 11, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
+    { id: 12, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
+    { id: 13, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
+    { id: 14, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
+    { id: 15, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
+    { id: 16, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
+    { id: 17, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
+    { id: 18, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
+    { id: 19, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
+    { id: 20, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
   ];
 
   const itemsPerPage = 5;
 
-  // useNotice 훅 사용
   const {
     displayedData,
     totalPages,
@@ -47,7 +59,6 @@ export default function NoticePage() {
   };
 
   // 제목 클릭 시 상세 페이지로 이동
-  // (예: /notice/[id] 형태로 라우팅)
   const handleTitleClick = (id: number) => {
     router.push(`/notice/${id}`);
   };
@@ -74,6 +85,7 @@ export default function NoticePage() {
                 <th className="py-3 px-4">제목</th>
                 <th className="py-3 px-4 w-32">작성자</th>
                 <th className="py-3 px-4 w-32">작성일</th>
+                <th className="py-3 px-4 w-24">조회수</th>
               </tr>
             </thead>
             <tbody>
@@ -93,11 +105,12 @@ export default function NoticePage() {
                   </td>
                   <td className="py-3 px-4 text-center">{notice.writer}</td>
                   <td className="py-3 px-4 text-center">{notice.date}</td>
+                  <td className="py-3 px-4 text-center">{notice.viewCount}</td>
                 </tr>
               ))}
               {displayedData.length === 0 && (
                 <tr>
-                  <td colSpan={4} className="py-3 px-4 text-center text-gray-400">
+                  <td colSpan={5} className="py-3 px-4 text-center text-gray-400">
                     검색 결과가 없습니다.
                   </td>
                 </tr>
@@ -111,7 +124,7 @@ export default function NoticePage() {
           <NoticeSearchBar onSearch={handleSearch} />
         </div>
 
-        {/* 페이지네이션 */}
+        {/* 페이지네이션 영역 */}
         <div className="container mx-auto px-4 mt-4">
           <Pagination
             currentPage={currentPage}
