@@ -58,24 +58,23 @@ export default function NoticePage() {
     setPage(page);
   };
 
-  // 제목 클릭 시 상세 페이지로 이동
   const handleTitleClick = (id: number) => {
     router.push(`/notice/${id}`);
   };
 
   return (
     <div className="bg-white text-black min-h-screen flex flex-col">
-      {/* 상단 영역 */}
+      {/* 상단 */}
       <div className="container mx-auto py-8 px-4 flex justify-between items-center">
         <h1 className="text-xl font-bold">공지사항</h1>
       </div>
 
-      {/* 정렬 박스 */}
+      {/* 정렬 */}
       <div className="container mx-auto px-4 mb-2 flex justify-end">
         <SortBar onSort={handleSort} />
       </div>
 
-      {/* 테이블 영역 */}
+      {/* 테이블 */}
       <div className="container mx-auto px-4 flex-1">
         <div className="overflow-x-auto w-full border border-grayDark rounded-md">
           <table className="w-full text-left">
@@ -94,12 +93,12 @@ export default function NoticePage() {
                   key={notice.id}
                   className="border-b border-grayDark hover:bg-grayDark/40"
                 >
-                  {/* 번호 (왼쪽 정렬 or 중앙정렬) */}
+                  {/* 번호 */}
                   <td className="py-3 px-4 text-center">
                     {(currentPage - 1) * itemsPerPage + idx + 1}
                   </td>
 
-                  {/* 제목 (검정색, 밑줄 없음, 가운데 정렬은 아니고 왼쪽) */}
+                  {/* 제목 */}
                   <td
                     className="py-3 px-4 cursor-pointer text-black"
                     onClick={() => handleTitleClick(notice.id)}
@@ -107,13 +106,13 @@ export default function NoticePage() {
                     {notice.title}
                   </td>
 
-                  {/* 작성자 (중앙정렬) */}
+                  {/* 작성자 */}
                   <td className="py-3 px-4 text-center">{notice.writer}</td>
 
-                  {/* 작성일 (중앙정렬) */}
+                  {/* 작성일일 */}
                   <td className="py-3 px-4 text-center">{notice.date}</td>
 
-                  {/* 조회수 (중앙정렬) */}
+                  {/* 조회수 */}
                   <td className="py-3 px-4 text-center">{notice.viewCount}</td>
                 </tr>
               ))}
@@ -134,7 +133,7 @@ export default function NoticePage() {
           <NoticeSearchBar onSearch={handleSearch} />
         </div>
 
-        {/* 페이지네이션 영역 */}
+        {/* 페이지네이션 */}
         <div className="container mx-auto px-4 mt-4">
           <Pagination
             currentPage={currentPage}
