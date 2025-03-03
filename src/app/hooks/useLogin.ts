@@ -26,14 +26,11 @@ export function useLogin() {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/v1/user/login`,
         formData,
-        { withCredentials: true } // 쿠키 포함
+        { withCredentials: true }
       );
-
       const data = response.data;
-      console.log("로그인 응답 데이터:", data);
-
       if (data.user) {
-        authStore.setUser(data.user); // MobX 스토어 업데이트
+        authStore.setUser(data.user);
       }
 
       alert("로그인 성공!");

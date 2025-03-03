@@ -2,6 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useLogin } from "@/app/hooks/useLogin";
+import NaverLoginButton from "@/app/components/NaverLogin";
 
 export default function LoginPage() {
   const { formData, errorMessage, handleChange, handleSubmit } = useLogin();
@@ -42,9 +43,7 @@ export default function LoginPage() {
             <button className="w-1/2 bg-yellow-400 rounded-md text-black hover:bg-yellow-500 flex items-center justify-center h-12 relative overflow-hidden">
               <Image src="/images/login/kakao_login_medium_narrow.png" alt="Kakao" fill className="object-cover" />
             </button>
-            <button className="w-1/2 bg-green-600 text-white rounded-md hover:bg-green-700 flex items-center justify-center h-12 relative overflow-hidden">
-              <Image src="/images/login/naver_mi.png" alt="Naver" fill className="object-cover" />
-            </button>
+            <NaverLoginButton />
           </div>
         </div>
 

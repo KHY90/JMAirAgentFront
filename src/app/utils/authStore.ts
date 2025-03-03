@@ -8,13 +8,12 @@ class AuthStore {
 
   constructor() {
     makeAutoObservable(this);
-    this.loadTokens();
   }
-
+  
   // 로그인한 사용자 정보 저장
-  setUser(user: { userLogin: string; userName: string }) {
+  setUser(user: { userLogin: string; userName: string } | null) {
     this.user = user;
-    this.isAuthenticated = true;
+    this.isAuthenticated = user !== null;
   }
 
   // 토큰 저장 (로그인 시)
@@ -24,9 +23,10 @@ class AuthStore {
     this.isAuthenticated = true;
   }
 
-  // 쿠키에서 토큰 가져오기 (초기 로드)
+  // 쿠키에서 토큰 가져오기 (클라이언트 사이드에서 호출)
   loadTokens() {
-    const getCookie = (name: string) => {
+    if (typeof document === "undefined") return;
+    const getCookie = (name: string): string | null => {
       const cookies = document.cookie.split("; ");
       for (const cookie of cookies) {
         const [key, value] = cookie.split("=");
@@ -49,9 +49,10 @@ class AuthStore {
 
   // 로그아웃
   logout() {
-    document.cookie = "access_token=; max-age=864000; path=/;"; // 만료 10일 후
-    document.cookie = "refresh_token=; max-age=864000; path=/;";
-    
+    if (typeof document !== "undefined") {
+      document.cookie = "access_token=; max-age=0; path=/;";
+      document.cookie = "refresh_token=; max-age=0; path=/;";
+    }
     this.accessToken = null;
     this.refreshToken = null;
     this.isAuthenticated = false;
@@ -59,6 +60,5 @@ class AuthStore {
   }
 }
 
-// 전역 스토어 인스턴스 생성
 const authStore = new AuthStore();
 export default authStore;
