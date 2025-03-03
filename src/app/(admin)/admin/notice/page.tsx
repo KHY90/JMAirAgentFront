@@ -1,19 +1,44 @@
 "use client";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import NoticeSearchBar from "../../../components/NoticeSearchBar";
+import SortBar from "../../../components/SortBar";
+import Pagination from "../../../components/Pagination";
+import { NoticeItem, useNotice } from "../../../hooks/useNotice";
 
 export default function AdminNoticeListPage() {
   const router = useRouter();
+  const [data, setData] = useState<NoticeItem[]>([]);
 
-  // 임시 데이터
-  const notices = [
-    { id: 1, title: "새로운 업데이트 안내", date: "2024-02-15", views: 120 },
-    { id: 2, title: "설 연휴 휴무 안내", date: "2024-02-10", views: 85 },
-    { id: 3, title: "이벤트 당첨자 발표", date: "2024-02-08", views: 95 },
-  ];
+  useEffect(() => {
+    const fetchNotices = async () => {
+      try {
+        const reseponse = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/notices`);
+        setData(reseponse.data);
+      } catch (error) {
+        console.error("공지사항 조회 오류:", error);
+      }
+    };
+    fetchNotices();
+  }, []);
 
-  // 등록 버튼 클릭 시 등록 페이지로 이동
-  const handleCreate = () => {
-    router.push("/admin/notice/create");
+  const itemsPerPage = 5;
+  const { displayedData, totalPages, currentPage, setSearch, setPage, setSortOrder } = useNotice(data, itemsPerPage);
+
+  // 검색 콜백
+  const handleSearch = (field: "title" | "writer", term: string) => {
+    setSearch(field, term);
+  };
+
+  // 정렬 콜백
+  const handleSort = (order: "desc" | "asc") => {
+    setSortOrder(order);
+  };
+
+  // 페이지 변경 콜백
+  const handlePageChange = (page: number) => {
+    setPage(page);
   };
 
   // 제목 클릭 시 상세 페이지로 이동
@@ -22,46 +47,74 @@ export default function AdminNoticeListPage() {
   };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">공지사항 목록</h1>
-
-      {/* 등록 버튼 */}
-      <div className="mb-4">
-        <button
-          onClick={handleCreate}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        >
-          등록
-        </button>
+    <div className="bg-white text-black min-h-screen flex flex-col">
+      {/* 상단 영역 */}
+      <div className="container mx-auto py-8 px-4 flex justify-between items-center">
+        <h1 className="text-xl font-bold">공지사항 목록</h1>
       </div>
 
-      {/* 목록 테이블 */}
-      <div className="overflow-x-auto bg-white rounded shadow p-4">
-        <table className="w-full text-left">
-          <thead className="border-b">
-            <tr>
-              <th className="py-2 px-2 w-16">번호</th>
-              <th className="py-2 px-2">제목</th>
-              <th className="py-2 px-2 w-32 text-center">작성일</th>
-              <th className="py-2 px-2 w-20 text-center">조회수</th>
-            </tr>
-          </thead>
-          <tbody>
-            {notices.map((notice, idx) => (
-              <tr key={notice.id} className="border-b hover:bg-gray-50">
-                <td className="py-2 px-2 text-center">{idx + 1}</td>
-                <td
-                  className="py-2 px-2 cursor-pointer text-black"
-                  onClick={() => handleTitleClick(notice.id)}
-                >
-                  {notice.title}
-                </td>
-                <td className="py-2 px-2 text-center">{notice.date}</td>
-                <td className="py-2 px-2 text-center">{notice.views}</td>
+      {/* 정렬 박스 */}
+      <div className="container mx-auto px-4 mb-2 flex justify-end">
+        <SortBar onSort={handleSort} />
+      </div>
+
+      {/* 테이블 영역 */}
+      <div className="container mx-auto px-4 flex-1">
+        <div className="overflow-x-auto w-full border border-grayDark rounded-md">
+          <table className="w-full text-left">
+            <thead className="bg-grayDark/50">
+              <tr>
+                <th className="py-3 px-4 w-16">번호</th>
+                <th className="py-3 px-4">제목</th>
+                <th className="py-3 px-4 w-32 text-center">작성자</th>
+                <th className="py-3 px-4 w-32 text-center">작성일</th>
+                <th className="py-3 px-4 w-24 text-center">조회수</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {displayedData.map((notice, idx) => (
+                <tr
+                  key={notice.id}
+                  className="border-b border-grayDark hover:bg-grayDark/40"
+                >
+                  <td className="py-3 px-4 text-center">
+                    {(currentPage - 1) * itemsPerPage + idx + 1}
+                  </td>
+                  <td
+                    className="py-3 px-4 cursor-pointer text-black"
+                    onClick={() => handleTitleClick(notice.id)}
+                  >
+                    {notice.title}
+                  </td>
+                  <td className="py-3 px-4 text-center">{notice.writer}</td>
+                  <td className="py-3 px-4 text-center">{notice.date}</td>
+                  <td className="py-3 px-4 text-center">{notice.viewCount}</td>
+                </tr>
+              ))}
+              {displayedData.length === 0 && (
+                <tr>
+                  <td colSpan={5} className="py-3 px-4 text-center text-gray-400">
+                    검색 결과가 없습니다.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        {/* 검색창 */}
+        <div className="container mx-auto px-4 mt-4 flex justify-center">
+          <NoticeSearchBar onSearch={handleSearch} />
+        </div>
+
+        {/* 페이지네이션 영역 */}
+        <div className="container mx-auto px-4 mt-4">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        </div>
       </div>
     </div>
   );

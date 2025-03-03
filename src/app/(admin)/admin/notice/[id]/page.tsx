@@ -7,7 +7,7 @@ export default function AdminNoticeDetailPage() {
   const params = useParams();
   const noticeId = Number(params.id);
 
-  // 예시 데이터 (실제로는 noticeId 기반으로 API Fetch)
+  // 예시 데이터
   const notice = {
     id: noticeId,
     title: "예시 공지사항 제목",
@@ -17,22 +17,19 @@ export default function AdminNoticeDetailPage() {
     writer: "관리자",
   };
 
-  // 목록으로 버튼
   const handleBack = () => {
     router.push("/admin/notice");
   };
 
-  // 수정 버튼 (수정 페이지 예시)
   const handleEdit = () => {
-    alert("수정 페이지 이동 (예시)");
-    // router.push(`/admin/notice/${noticeId}/edit`);
+    router.push(`/admin/notice/${noticeId}/edit`);
   };
 
-  // 삭제 버튼 (실제 로직은 API 요청 후 목록으로)
+  // 삭제 버튼
   const handleDelete = () => {
     const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
     if (confirmDelete) {
-      alert(`공지사항 ${noticeId} 삭제 완료 (예시)`);
+      alert(`공지사항 ${noticeId} 삭제 완료`);
       router.push("/admin/notice");
     }
   };
