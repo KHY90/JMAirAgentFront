@@ -5,10 +5,11 @@ import Image from "next/image";
 export default function NaverLoginButton() {
   const clientId = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID;
   const redirectUri = process.env.NEXT_PUBLIC_NAVER_REDIRECT_URI;
+  const naverUri = process.env.NEXT_PUBLIC_NAVER_URI;
   const state = "random_generated_state"; 
 
   const handleNaverLogin = () => {
-    const authUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}`;
+    const authUrl = `${naverUri}?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}`;
     window.location.href = authUrl;
   };
 

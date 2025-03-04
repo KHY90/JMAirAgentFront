@@ -23,7 +23,7 @@ class AuthStore {
     this.isAuthenticated = true;
   }
 
-  // 쿠키에서 토큰 가져오기 (클라이언트 사이드에서 호출)
+  // 쿠키에서 토큰 가져오기 (클라이언트 사이드에서만 호출)
   loadTokens() {
     if (typeof document === "undefined") return;
     const getCookie = (name: string): string | null => {
@@ -50,8 +50,8 @@ class AuthStore {
   // 로그아웃
   logout() {
     if (typeof document !== "undefined") {
-      document.cookie = "access_token=; max-age=0; path=/;";
-      document.cookie = "refresh_token=; max-age=0; path=/;";
+      document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;";
+      document.cookie = "refresh_token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;";
     }
     this.accessToken = null;
     this.refreshToken = null;

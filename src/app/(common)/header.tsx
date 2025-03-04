@@ -1,13 +1,16 @@
 "use client";
 import Link from "next/link";
 import { observer } from "mobx-react-lite";
+import { useLogout } from "@/app/utils/useLogout";
 import authStore from "@/app/utils/authStore";
 
 const Header = observer(() => {
+  const logout = useLogout();
+
   const handleLogout = () => {
     const confirmLogout = window.confirm("정말 로그아웃 하시겠습니까?");
     if (confirmLogout) {
-      authStore.logout();
+      logout();
     }
   };
 
