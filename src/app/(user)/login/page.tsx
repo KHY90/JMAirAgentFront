@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
 import { useLogin } from "@/app/hooks/useLogin";
 import NaverLoginButton from "@/app/components/NaverLogin";
+import KakaoLoginButton from "@/app/components/KakaoLoginButton";
 
 export default function LoginPage() {
   const { formData, errorMessage, handleChange, handleSubmit } = useLogin();
@@ -12,7 +12,7 @@ export default function LoginPage() {
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold text-center mb-6">로그인</h2>
 
-        {/* 아이디 & 비밀번호 입력 */}
+        {/* 아이디 & 비밀번호 로그인 폼 */}
         <form className="space-y-4" onSubmit={handleSubmit}>
           <input
             type="text"
@@ -31,18 +31,21 @@ export default function LoginPage() {
             className="w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500"
           />
           {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}
-          <button type="submit" className="w-full bg-blue-500 text-white py-3 rounded-md hover:bg-blue-600">
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white py-3 rounded-md hover:bg-blue-600"
+          >
             로그인
           </button>
         </form>
 
-        {/* 소셜 로그인 */}
+        {/* 소셜 로그인 영역 */}
         <div className="mt-6 text-center">
           <p className="text-gray-600">소셜 로그인</p>
           <div className="flex space-x-2 mt-2">
-            <button className="w-1/2 bg-yellow-400 rounded-md text-black hover:bg-yellow-500 flex items-center justify-center h-12 relative overflow-hidden">
-              <Image src="/images/login/kakao_login_medium_narrow.png" alt="Kakao" fill className="object-cover" />
-            </button>
+            {/* 카카오 로그인 버튼 */}
+            <KakaoLoginButton />
+            {/* 네이버 로그인 버튼 */}
             <NaverLoginButton />
           </div>
         </div>
