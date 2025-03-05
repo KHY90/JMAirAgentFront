@@ -14,16 +14,20 @@ export default function AdminNoticeListPage() {
   useEffect(() => {
     const fetchNotices = async () => {
       try {
-        const reseponse = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/notices`);
-        setData(reseponse.data);
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/notices`,
+          { withCredentials: true }
+        );
+        setData(response.data);
       } catch (error) {
         console.error("공지사항 조회 오류:", error);
       }
     };
     fetchNotices();
   }, []);
+  
 
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
   const { displayedData, totalPages, currentPage, setSearch, setPage, setSortOrder } = useNotice(data, itemsPerPage);
 
   // 검색 콜백
@@ -41,7 +45,6 @@ export default function AdminNoticeListPage() {
     setPage(page);
   };
 
-  // 제목 클릭 시 상세 페이지로 이동
   const handleTitleClick = (id: number) => {
     router.push(`/admin/notice/${id}`);
   };
@@ -51,7 +54,14 @@ export default function AdminNoticeListPage() {
       {/* 상단 영역 */}
       <div className="container mx-auto py-8 px-4 flex justify-between items-center">
         <h1 className="text-xl font-bold">공지사항 목록</h1>
+        <button
+          onClick={() => router.push("/admin/notice/post")}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          등록
+        </button>
       </div>
+
 
       {/* 정렬 박스 */}
       <div className="container mx-auto px-4 mb-2 flex justify-end">
@@ -88,7 +98,7 @@ export default function AdminNoticeListPage() {
                   </td>
                   <td className="py-3 px-4 text-center">{notice.writer}</td>
                   <td className="py-3 px-4 text-center">{notice.date}</td>
-                  <td className="py-3 px-4 text-center">{notice.viewCount}</td>
+                  {/* <td className="py-3 px-4 text-center">{notice.viewCount}</td> */}
                 </tr>
               ))}
               {displayedData.length === 0 && (

@@ -16,7 +16,10 @@ export default function AdminNoticeCreatePage() {
       await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/v1/notices/post`,
         { title, content },
-        { headers: { "Content-Type": "application/json" } }
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true
+        }
       );
 
       alert("공지사항 등록이 완료되었습니다!");
