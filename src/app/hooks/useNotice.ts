@@ -5,7 +5,9 @@ export interface NoticeItem {
   id: number;
   title: string;
   writer: string;
-  date: string;
+  postTime: string;
+  editTime: string;
+  deleteTime: string;
   // viewCount: number;
 }
 

@@ -25,7 +25,7 @@ export default function AdminNoticeListPage() {
     };
     fetchNotices();
   }, []);
-  
+
 
   const itemsPerPage = 10;
   const { displayedData, totalPages, currentPage, setSearch, setPage, setSortOrder } = useNotice(data, itemsPerPage);
@@ -97,7 +97,9 @@ export default function AdminNoticeListPage() {
                     {notice.title}
                   </td>
                   <td className="py-3 px-4 text-center">{notice.writer}</td>
-                  <td className="py-3 px-4 text-center">{notice.date}</td>
+                  <td className="py-3 px-4 text-center">
+                    {new Date(notice.postTime).toLocaleDateString("ko-KR")}
+                  </td>
                   {/* <td className="py-3 px-4 text-center">{notice.viewCount}</td> */}
                 </tr>
               ))}
