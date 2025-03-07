@@ -12,6 +12,7 @@ export default {
       fontFamily: {
         sans: ["Geist", "sans-serif"],  
         mono: ["Geist Mono", "monospace"], 
+        gowun: ['"Gowun Dodum"', 'sans-serif'],
       },
       colors: {
         primary: "#1D4ED8", // 확인 버튼
