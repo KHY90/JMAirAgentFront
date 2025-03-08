@@ -1,80 +1,69 @@
 "use client";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import NoticeSearchBar from "../../components/NoticeSearchBar";
-import SortBar from "../../components/SortBar";
-import Pagination from "../../components/Pagination";
-import { NoticeItem, useNotice } from "../../hooks/useNotice";
+import axios from "axios";
+import NoticeSearchBar from "../../../components/NoticeSearchBar";
+import SortBar from "../../../components/SortBar";
+import Pagination from "../../../components/Pagination";
+import { NoticeItem, useNotice } from "../../../hooks/useNotice";
 
-export default function NoticePage() {
+export default function AdminNoticeListPage() {
   const router = useRouter();
+  const [data, setData] = useState<NoticeItem[]>([]);
 
-  // 예시 공지사항 데이터
-  const data: NoticeItem[] = [
-    { id: 1, title: "새로운 업데이트 안내", writer: "관리자", date: "2024-02-15", viewCount: 120 },
-    { id: 2, title: "설 연휴 휴무 안내", writer: "운영팀", date: "2024-02-10", viewCount: 85 },
-    { id: 3, title: "이벤트 당첨자 발표", writer: "마케팅", date: "2024-02-08", viewCount: 95 },
-    { id: 4, title: "서비스 점검 공지", writer: "관리자", date: "2024-02-05", viewCount: 110 },
-    { id: 5, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
-    { id: 6, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
-    { id: 7, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
-    { id: 8, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
-    { id: 9, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
-    { id: 10, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
-    { id: 11, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
-    { id: 12, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
-    { id: 13, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
-    { id: 14, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
-    { id: 15, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
-    { id: 16, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
-    { id: 17, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
-    { id: 18, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
-    { id: 19, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
-    { id: 20, title: "신규 기능 소개", writer: "운영팀", date: "2024-02-01", viewCount: 75 },
-  ];
+  useEffect(() => {
+    const fetchNotices = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/notices`,
+          { withCredentials: true }
+        );
+        setData(response.data);
+      } catch (error) {
+        console.error("공지사항 조회 오류:", error);
+      }
+    };
+    fetchNotices();
+  }, []);
 
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
+  const { displayedData, totalPages, currentPage, setSearch, setPage, setSortOrder } = useNotice(data, itemsPerPage);
 
-  const {
-    displayedData,
-    totalPages,
-    currentPage,
-    setSearch,
-    setPage,
-    setSortOrder,
-  } = useNotice(data, itemsPerPage);
-
-  // 검색 콜백
   const handleSearch = (field: "title" | "writer", term: string) => {
     setSearch(field, term);
   };
 
-  // 정렬 콜백
   const handleSort = (order: "desc" | "asc") => {
     setSortOrder(order);
   };
 
-  // 페이지 변경 콜백
   const handlePageChange = (page: number) => {
     setPage(page);
   };
 
   const handleTitleClick = (id: number) => {
-    router.push(`/notice/${id}`);
+    router.push(`/admin/notice/${id}`);
   };
 
   return (
     <div className="bg-white text-black min-h-screen flex flex-col">
-      {/* 상단 */}
+      {/* 상단 영역 */}
       <div className="container mx-auto py-8 px-4 flex justify-between items-center">
-        <h1 className="text-xl font-bold">공지사항</h1>
+        <h1 className="text-xl font-bold">공지사항 목록</h1>
+        <button
+          onClick={() => router.push("/admin/notice/post")}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          등록
+        </button>
       </div>
 
-      {/* 정렬 */}
+      {/* 정렬 박스 */}
       <div className="container mx-auto px-4 mb-2 flex justify-end">
         <SortBar onSort={handleSort} />
       </div>
 
-      {/* 테이블 */}
+      {/* 테이블 영역 */}
       <div className="container mx-auto px-4 flex-1">
         <div className="overflow-x-auto w-full border border-grayDark rounded-md">
           <table className="w-full text-left">
@@ -93,30 +82,21 @@ export default function NoticePage() {
                   key={notice.id}
                   className="border-b border-grayDark hover:bg-grayDark/40"
                 >
-                  {/* 번호 */}
                   <td className="py-3 px-4 text-center">
                     {(currentPage - 1) * itemsPerPage + idx + 1}
                   </td>
-
-                  {/* 제목 */}
                   <td
                     className="py-3 px-4 cursor-pointer text-black"
                     onClick={() => handleTitleClick(notice.id)}
                   >
                     {notice.title}
                   </td>
-
-                  {/* 작성자 */}
                   <td className="py-3 px-4 text-center">{notice.writer}</td>
-
-                  {/* 작성일일 */}
-                  <td className="py-3 px-4 text-center">{notice.date}</td>
-
-                  {/* 조회수 */}
-                  <td className="py-3 px-4 text-center">{notice.viewCount}</td>
+                  <td className="py-3 px-4 text-center">
+                    {new Date(notice.postTime).toLocaleDateString("ko-KR")}
+                  </td>
                 </tr>
               ))}
-
               {displayedData.length === 0 && (
                 <tr>
                   <td colSpan={5} className="py-3 px-4 text-center text-gray-400">
@@ -133,7 +113,7 @@ export default function NoticePage() {
           <NoticeSearchBar onSearch={handleSearch} />
         </div>
 
-        {/* 페이지네이션 */}
+        {/* 페이지네이션 영역 */}
         <div className="container mx-auto px-4 mt-4">
           <Pagination
             currentPage={currentPage}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import authStore from "@/app/utils/authStore";
+import authStore from "@/utils/authStore";
 
 // 회원탈퇴 훅스
 export function useDeleteAccount() {

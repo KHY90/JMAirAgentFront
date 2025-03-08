@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./styles/globals.css"; 
-import AuthUpdater from "./components/AuthUpdater";
+import AuthUpdater from "../components/AuthUpdater";
 
 import Header from "./(common)/header";
 import Footer from "./(common)/footer";

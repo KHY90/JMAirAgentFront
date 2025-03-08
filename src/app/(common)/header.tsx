@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
 import { observer } from "mobx-react-lite";
-import { useLogout } from "@/app/utils/useLogout";
-import authStore from "@/app/utils/authStore";
+import { useLogout } from "@/utils/useLogout";
+import authStore from "@/utils/authStore";
 
 const Header = observer(() => {
   const logout = useLogout();

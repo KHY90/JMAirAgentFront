@@ -1,5 +1,5 @@
 "use client";
-import { useDeleteAccount } from "@/app/hooks/useDeleteAcoount";
+import { useDeleteAccount } from "@/hooks/useDeleteAcoount";
 
 export default function MyPage() {
   const { deleteAccount, errorMessage, isLoading } = useDeleteAccount();

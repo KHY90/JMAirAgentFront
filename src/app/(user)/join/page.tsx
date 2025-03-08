@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useJoinForm } from "@/app/hooks/useJoinForm";
+import { useJoinForm } from "@/hooks/useJoinForm";
 
 export default function JoinPage() {
   const router = useRouter();

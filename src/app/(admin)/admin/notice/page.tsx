@@ -2,10 +2,10 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import NoticeSearchBar from "../../../components/NoticeSearchBar";
-import SortBar from "../../../components/SortBar";
-import Pagination from "../../../components/Pagination";
-import { NoticeItem, useNotice } from "../../../hooks/useNotice";
+import NoticeSearchBar from "../../../../components/NoticeSearchBar";
+import SortBar from "../../../../components/SortBar";
+import Pagination from "../../../../components/Pagination";
+import { NoticeItem, useNotice } from "../../../../hooks/useNotice";
 
 export default function AdminNoticeListPage() {
   const router = useRouter();

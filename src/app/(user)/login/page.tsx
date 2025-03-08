@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
-import { useLogin } from "@/app/hooks/useLogin";
-import NaverLoginButton from "@/app/components/NaverLogin";
-import KakaoLoginButton from "@/app/components/KakaoLoginButton";
+import { useLogin } from "@/hooks/useLogin";
+import NaverLoginButton from "@/components/NaverLogin";
+import KakaoLoginButton from "@/components/KakaoLoginButton";
 
 export default function LoginPage() {
   const { formData, errorMessage, handleChange, handleSubmit } = useLogin();

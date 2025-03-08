@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { validateUserLogin, validatePassword, validateConfirmPassword, validateEmail, checkUserLoginExists } from "@/app/utils/validation";
+import { validateUserLogin, validatePassword, validateConfirmPassword, validateEmail, checkUserLoginExists } from "@/utils/validation";
 
 export const useJoinForm = () => {
   // 입력 데이터 상태

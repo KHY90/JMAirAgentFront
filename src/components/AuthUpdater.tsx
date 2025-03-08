@@ -1,5 +1,5 @@
 "use client";
-import { useAuthUpdate } from "@/app/utils/useAuth";
+import { useAuthUpdate } from "@/utils/useAuth";
 
 export default function AuthUpdater() {
   useAuthUpdate();
