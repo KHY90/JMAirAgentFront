@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 export default function CleaningPage() {
   const router = useRouter();
 
-  // 폼 상태 (예시: 이름, 연락처, 주소, 제품 종류, 요청사항, 희망 날짜/시간 등)
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -16,11 +15,9 @@ export default function CleaningPage() {
     preferredDate: "",
   });
 
-  // 에러/성공 메시지 상태
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  // 폼 필드 변경 핸들러
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
@@ -28,22 +25,20 @@ export default function CleaningPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 폼 제출
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setSuccess("");
 
     try {
-      // 실제 API URL로 교체
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/v1/cleaning`,
         formData,
         { headers: { "Content-Type": "application/json" } }
       );
-      // 성공 처리
+      console.log("에어컨 세척 신청 결과:", response.data);
       setSuccess("에어컨 세척 신청이 완료되었습니다. 빠른 시일 내에 연락드리겠습니다.");
-      // 폼 초기화
+
       setFormData({
         name: "",
         phone: "",
@@ -52,13 +47,12 @@ export default function CleaningPage() {
         note: "",
         preferredDate: "",
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("에어컨 세척 신청 오류:", err);
       setError("에어컨 세척 신청에 실패했습니다. 다시 시도해주세요.");
     }
   };
 
-  // 취소 버튼
   const handleCancel = () => {
     const confirmCancel = window.confirm("신청을 취소하시겠습니까?");
     if (confirmCancel) {
