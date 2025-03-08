@@ -42,20 +42,14 @@ export default function AdminNoticeListPage() {
   };
 
   const handleTitleClick = (id: number) => {
-    router.push(`/admin/notice/${id}`);
+    router.push(`/notice/${id}`);
   };
 
   return (
     <div className="bg-white text-black min-h-screen flex flex-col">
       {/* 상단 영역 */}
       <div className="container mx-auto py-8 px-4 flex justify-between items-center">
-        <h1 className="text-xl font-bold">공지사항 목록</h1>
-        <button
-          onClick={() => router.push("/admin/notice/post")}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        >
-          등록
-        </button>
+        <h1 className="text-xl font-bold">공지사항 </h1>
       </div>
 
       {/* 정렬 박스 */}
@@ -100,7 +94,7 @@ export default function AdminNoticeListPage() {
               {displayedData.length === 0 && (
                 <tr>
                   <td colSpan={5} className="py-3 px-4 text-center text-gray-400">
-                    검색 결과가 없습니다.
+                    아직 등록된 공지사항이 없습니다.
                   </td>
                 </tr>
               )}

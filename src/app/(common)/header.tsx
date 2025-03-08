@@ -46,6 +46,7 @@ const Header = observer(() => {
           {/* 내비게이션 메뉴 */}
           <nav className="space-x-4">
             <Link href="/about" className="hover:text-blue-500">회사소개</Link>
+            <Link href="/cost" className="hover:text-blue-500">설치가격</Link>
             <Link href="/used-ac" className="hover:text-blue-500">중고에어컨</Link>
             <Link href="/cleaning" className="hover:text-blue-500">에어컨세척</Link>
             <Link href="/estimate" className="hover:text-blue-500">견적 신청</Link>
