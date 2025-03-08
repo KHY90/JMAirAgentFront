@@ -40,12 +40,12 @@ export function useEstimate(data: EstimateItem[], itemsPerPage: number = 10): Us
     );
   }, [data, searchField, searchTerm]);
 
-  // 정렬 (날짜 기준)
+  // 정렬
   const sortedData = useMemo(() => {
     return [...filteredData].sort((a, b) => {
-      return sortOrder === "desc"
-        ? b.date.localeCompare(a.date)
-        : a.date.localeCompare(b.date);
+      const dateA = new Date(a.date).getTime();
+      const dateB = new Date(b.date).getTime();
+      return sortOrder === "desc" ? dateB - dateA : dateA - dateB;
     });
   }, [filteredData, sortOrder]);
 

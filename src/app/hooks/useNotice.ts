@@ -8,7 +8,6 @@ export interface NoticeItem {
   postTime: string;
   editTime: string;
   deleteTime: string;
-  // viewCount: number;
 }
 
 export type SearchField = "title" | "writer";
@@ -34,14 +33,14 @@ export function useNotice(data: NoticeItem[], itemsPerPage: number = 10) {
     );
   }, [data, searchField, searchTerm]);
 
-  // 정렬 (날짜 기준)
-  const sortedData = useMemo(() => {
-    return [...filteredData].sort((a, b) => {
-      const dateA = new Date(a.date).getTime();
-      const dateB = new Date(b.date).getTime();
-      return sortOrder === "desc" ? dateB - dateA : dateA - dateB;
-    });
-  }, [filteredData, sortOrder]);
+// 정렬 (날짜 기준)
+const sortedData = useMemo(() => {
+  return [...filteredData].sort((a, b) => {
+    return sortOrder === "desc"
+      ? b.postTime.localeCompare(a.postTime)
+      : a.postTime.localeCompare(b.postTime);
+  });
+}, [filteredData, sortOrder]);
 
   // 총 페이지 수
   const totalPages = useMemo(() => {
