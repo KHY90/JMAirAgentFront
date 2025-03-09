@@ -13,7 +13,6 @@ export default function CleaningRequestPostPage() {
   const [detailAddress, setDetailAddress] = useState("");
   const [requestMessage, setRequestMessage] = useState("");
   const [password, setPassword] = useState("");
-  // 1차, 2차 희망 날짜 및 시간 상태
   const [firstDateTime, setFirstDateTime] = useState("");
   const [secondDateTime, setSecondDateTime] = useState("");
 
@@ -172,7 +171,10 @@ export default function CleaningRequestPostPage() {
               요청사항 (최대 1000자)
             </label>
             <textarea
-              placeholder="설치 관련 요청사항을 입력하세요 (최대 1000자)"
+              placeholder={`설치 관련 요청사항을 입력하세요 (최대 1000자)
+에어컨 종류 : 벽걸이형 / 스탠드형 / 투인원(벽걸이+스탠드) / 천장형 / 냉난방기 / 기타
+에어컨 배관 형태 : 노출형(배관이 밖으로 노출된 형태) / 매립형(배관이 벽 속에 묻혀있는 형태) / 모르겠음
+등등`}
               className="w-full border border-gray-300 rounded px-3 py-2 h-40 overflow-y-auto"
               maxLength={1000}
               value={requestMessage}
