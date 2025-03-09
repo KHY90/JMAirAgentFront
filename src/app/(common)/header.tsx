@@ -31,6 +31,7 @@ const Header = observer(() => {
             <>
               <Link href="/login" className="hover:text-blue-400">로그인</Link>
               <Link href="/join" className="hover:text-blue-400">회원가입</Link>
+              <Link href="/mypage" className="hover:text-blue-400">마이페이지</Link>
             </>
           )}
         </div>
