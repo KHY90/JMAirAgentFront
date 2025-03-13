@@ -27,7 +27,7 @@ export default function RegisterLayout({ children }: { children: React.ReactNode
             href="/register/service"
             className={`block px-4 py-2 rounded hover:bg-primary hover:text-white font-gowun ${pathname === "/register/service" ? "bg-primary text-white" : "text-black"}`}
           >
-            A/s 신청
+            A/S 신청
           </Link>
         </nav>
       </aside>

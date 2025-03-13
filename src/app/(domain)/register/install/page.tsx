@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import axios from "axios";
 import { useAddressSearch } from "@/utils/useAddressSearch"; 
+import CustomDateTimePicker from "@/components/CustomDateTimePicker"; // 실제 경로에 맞게 수정하세요.
 
 export default function InstallRequestPostPage() {
   const router = useRouter();
@@ -167,6 +168,23 @@ export default function InstallRequestPostPage() {
             />
           </div>
 
+          {/* 1차 희망 날짜 및 시간 */}
+          <div className="col-span-2">
+            <CustomDateTimePicker
+              label="1차 희망 날짜 및 시간"
+              value={firstDateTime}
+              onChange={(val) => setFirstDateTime(val)}
+            />
+          </div>
+
+          {/* 2차 희망 날짜 및 시간 */}
+          <div className="col-span-2">
+            <CustomDateTimePicker
+              label="2차 희망 날짜 및 시간"
+              value={secondDateTime}
+              onChange={(val) => setSecondDateTime(val)}
+            />
+          </div>
           {/* 요청사항 */}
           <div className="col-span-2">
             <label className="block mb-1 font-medium">
