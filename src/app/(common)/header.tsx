@@ -49,7 +49,7 @@ const Header = observer(() => {
             <Link href="/cost" className="hover:text-blue-500">설치가격</Link>
             <Link href="/used-ac" className="hover:text-blue-500">중고에어컨</Link>
             <Link href="/register/install" className="hover:text-blue-500">견적 신청</Link>
-            <Link href="/search" className="hover:text-blue-500">신청 내역역</Link>
+            <Link href="/search" className="hover:text-blue-500">신청 내역</Link>
             <Link href="/notice" className="hover:text-blue-500">공지사항</Link>
           </nav>
         </div>

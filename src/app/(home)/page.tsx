@@ -9,7 +9,7 @@ export default function HomePage() {
         <Image
           src="/images/banner.jpg"
           alt="Banner"
-          width={1200} // 이미지 원본 비율 유지
+          width={1200}
           height={500}
           className="max-w-full h-auto object-contain"
           priority
@@ -20,6 +20,9 @@ export default function HomePage() {
       <div className="container mx-auto p-6 text-center">
         <h1 className="text-2xl font-bold">에어컨 서비스</h1>
         <p>최고의 에어컨 설치 및 관리 서비스를 제공합니다.</p>
+        <div>
+
+        </div>
       </div>
     </div>
   );

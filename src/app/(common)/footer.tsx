@@ -21,8 +21,7 @@ export default function Footer() {
         {/* SNS */}
         <div className="flex flex-col space-y-2">
           <span className="font-bold">SNS</span>
-          <a href="#" className="text-gray-600">Instagram</a>
-          <a href="#" className="text-gray-600">Facebook</a>
+          <a href="https://github.com/KHY90" className="text-gray-600">GitHub</a>
         </div>
       </div>
     </footer>

@@ -2,14 +2,15 @@
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import axios from "axios";
+import { useAddressSearch } from "@/utils/useAddressSearch"; 
 
-export default function CleaningRequestPostPage() {
+export default function InstallRequestPostPage() {
   const router = useRouter();
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
+  const { address, searchAddress, setAddress } = useAddressSearch();
   const [detailAddress, setDetailAddress] = useState("");
   const [requestMessage, setRequestMessage] = useState("");
   const [password, setPassword] = useState("");
@@ -120,6 +121,7 @@ export default function CleaningRequestPostPage() {
               />
               <button
                 type="button"
+                onClick={searchAddress}
                 className="border border-gray-300 rounded px-3 py-2 bg-gray-100 hover:bg-gray-200"
               >
                 주소 검색

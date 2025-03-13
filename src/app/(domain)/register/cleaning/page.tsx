@@ -10,7 +10,7 @@ export default function CleaningPage() {
     name: "",
     phone: "",
     address: "",
-    productType: "벽걸이형", // 기본값
+    productType: "벽걸이형",
     note: "",
     preferredDate: "",
   });
