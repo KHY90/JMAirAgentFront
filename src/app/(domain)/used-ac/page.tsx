@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import Image from "next/image";
 
 interface UsedAcItem {
   id: number;
@@ -28,7 +29,7 @@ export default function UsedAcListPage() {
           price: item.usedCost,
           usageTime: item.usedTime,
           year: item.usedYear,
-          usedImage: item.usedImage,
+          usedImage: item.usedImages,
           usedDescription: item.usedDescription,
         }));
         setUsedAcList(list);
@@ -52,10 +53,22 @@ export default function UsedAcListPage() {
           <div
             key={item.id}
             className="border border-gray-300 rounded p-4 hover:shadow-lg transition-shadow"
-          > 
+          >
             {/* 이미지 영역 */}
-            <div className="w-full h-48 bg-gray-200 flex items-center justify-center mb-4">
-              <span className="text-gray-500 text-sm">400 x 300</span>
+            <div className="relative w-full h-48 bg-gray-200 mb-4">
+              {item.usedImage && item.usedImage.length > 0 ? (
+                <Image
+                  src={item.usedImage[0]}
+                  alt={`미리보기 ${item.title}`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover"
+                />
+              ) : (
+                <span className="text-gray-500 text-sm flex items-center justify-center h-full">
+                  400 x 300
+                </span>
+              )}
             </div>
             <h2 className="text-lg font-semibold mb-2">{item.title}</h2>
             <p className="text-grayDark mb-1">{item.price.toLocaleString()}원</p>
