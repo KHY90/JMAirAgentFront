@@ -1,39 +1,20 @@
 "use client";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import SearchBar from "../../../../components/SearchBar";
 import Pagination from "../../../../components/Pagination";
 import SortBar from "../../../../components/SortBar";
 import { useEstimate, EstimateItem } from "../../../../hooks/useEstimate";
+import { useRouter } from "next/navigation";
 
-export default function EstimatePage() {
+export default function AsListPage() {
+  const router = useRouter();
 
-  // 예시 데이터
-  const data: EstimateItem[] = [
-    { id: 1, title: "에어컨 설치 문의", applicant: "이영민", date: "2024-02-14" },
-    { id: 2, title: "이영희", applicant: "이영희", date: "2024-02-13" },
-    { id: 3, title: "박민준", applicant: "박민준", date: "2024-02-12" },
-    { id: 4, title: "박지성", applicant: "박지성", date: "2024-02-11" },
-    { id: 5, title: "테스트", applicant: "테스터", date: "2024-02-10" },
-    { id: 6, title: "테스트", applicant: "테스터", date: "2024-02-10" },
-    { id: 7, title: "테스트", applicant: "테스터", date: "2024-02-10" },
-    { id: 8, title: "테스트", applicant: "테스터", date: "2024-02-10" },
-    { id: 9, title: "테스트", applicant: "테스터", date: "2024-02-10" },
-    { id: 10, title: "테스트", applicant: "테스터", date: "2024-02-10" },
-    { id: 11, title: "테스트", applicant: "테스터", date: "2024-02-10" },
-    { id: 12, title: "테스트", applicant: "테스터", date: "2024-02-10" },
-    { id: 13, title: "테스트", applicant: "테스터", date: "2024-02-10" },
-    { id: 14, title: "테스트", applicant: "테스터", date: "2024-02-10" },
-    { id: 16, title: "테스트", applicant: "테스터", date: "2024-02-10" },
-    { id: 17, title: "테스트", applicant: "테스터", date: "2024-02-10" },
-    { id: 18, title: "테스트", applicant: "테스터", date: "2024-02-10" },
-    { id: 19, title: "테스트", applicant: "테스터", date: "2024-02-10" },
-    { id: 20, title: "테스트", applicant: "테스터", date: "2024-02-10" },
-    { id: 21, title: "테스트", applicant: "테스터", date: "2024-02-10" },
-    { id: 22, title: "테스트", applicant: "테스터", date: "2024-02-10" },
-    { id: 23, title: "테스트", applicant: "테스터", date: "2024-02-10" },
-    { id: 24, title: "테스트", applicant: "테스터", date: "2024-02-10" },
-  ];
-
+  const [serverData, setServerData] = useState<EstimateItem[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const itemsPerPage = 10;
+
   const {
     displayedData,
     totalPages,
@@ -41,19 +22,69 @@ export default function EstimatePage() {
     setSearch,
     setPage,
     setSortOrder,
-  } = useEstimate(data, itemsPerPage);
+  } = useEstimate(serverData, itemsPerPage);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      setError("");
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/install`,
+          { withCredentials: true }
+        );
+
+        const mappedData: EstimateItem[] = response.data.map((item: any) => ({
+          id: item.installId,
+          title: item.installDescription || "견적적 신청 문의",
+          applicant: item.installName,
+          date: item.requestDate
+            ? new Date(item.requestDate).toLocaleDateString("ko-KR")
+            : "",
+        }));
+
+        setServerData(mappedData);
+      } catch (err) {
+        console.error("견적 신청 목록 조회 오류:", err);
+        setError("견적적 신청 목록을 불러오는 중 오류가 발생했습니다.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // 검색 콜백
   const handleSearch = (field: "title" | "applicant", term: string) => {
     setSearch(field, term);
   };
 
+  // 페이지 변경 콜백
   const handlePageChange = (page: number) => {
     setPage(page);
   };
 
+  // 정렬 콜백
   const handleSort = (order: "desc" | "asc") => {
     setSortOrder(order);
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white text-black flex items-center justify-center">
+        <p>로딩 중...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-white text-black flex items-center justify-center">
+        <p>{error}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white text-black min-h-screen flex flex-col">
@@ -69,9 +100,9 @@ export default function EstimatePage() {
 
       {/* 테이블 영역 */}
       <div className="container mx-auto px-4 flex-1">
-        <div className="overflow-x-auto w-full border border-grayDark rounded-md">
+        <div className="overflow-x-auto w-full border border-gray-300 rounded-md">
           <table className="w-full text-left">
-            <thead className="bg-grayDark/50">
+            <thead className="bg-gray-200">
               <tr>
                 <th className="py-3 px-4 w-16">순서</th>
                 <th className="py-3 px-4">제목</th>
@@ -83,17 +114,30 @@ export default function EstimatePage() {
               {displayedData.map((item, idx) => (
                 <tr
                   key={item.id}
-                  className="border-b border-grayDark hover:bg-grayDark/40"
+                  className="border-b hover:bg-gray-50 cursor-pointer"
                 >
-                  <td className="py-3 px-4 text-center">{(currentPage - 1) * itemsPerPage + idx + 1}</td>
-                  <td className="py-3 px-4">{item.title}</td>
+                  <td className="py-3 px-4 text-center">
+                    {(currentPage - 1) * itemsPerPage + idx + 1}
+                  </td>
+
+                  {/* 제목 셀 클릭 시 상세 페이지 이동 */}
+                  <td
+                    className="py-3 px-4 text-blue-600 underline"
+                    onClick={() => router.push(`/admin/estimate/${item.id}`)}
+                  >
+                    {item.title}
+                  </td>
+
                   <td className="py-3 px-4 text-center">{item.applicant}</td>
                   <td className="py-3 px-4 text-center">{item.date}</td>
                 </tr>
               ))}
               {displayedData.length === 0 && (
                 <tr>
-                  <td colSpan={4} className="py-3 px-4 text-center text-gray-400">
+                  <td
+                    colSpan={4}
+                    className="py-3 px-4 text-center text-gray-400"
+                  >
                     검색 결과가 없습니다.
                   </td>
                 </tr>

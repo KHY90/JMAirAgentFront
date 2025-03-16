@@ -34,12 +34,12 @@ export default function InstallRequestPostPage() {
 
     try {
       await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/install`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/install/post`,
         payload,
         { headers: { "Content-Type": "application/json" }, withCredentials: true }
       );
       alert("에어컨 설치 신청이 완료되었습니다!");
-      router.push("/estimate");
+      router.push("/search");
     } catch (error) {
       console.error("에어컨 설치 신청 오류:", error);
       alert("에어컨 설치 신청에 실패했습니다.");
@@ -139,7 +139,7 @@ export default function InstallRequestPostPage() {
           </div>
 
           {/* 1차 희망 날짜 및 시간 */}
-          <div className="col-span-2">
+          {/* <div className="col-span-2">
             <label className="block mb-1 font-medium" htmlFor="firstDateTime">
               1차 희망 날짜 및 시간
             </label>
@@ -151,10 +151,10 @@ export default function InstallRequestPostPage() {
               onChange={(e) => setFirstDateTime(e.target.value)}
               required
             />
-          </div>
+          </div> */}
 
           {/* 2차 희망 날짜 및 시간 */}
-          <div className="col-span-2">
+          {/* <div className="col-span-2">
             <label className="block mb-1 font-medium" htmlFor="secondDateTime">
               2차 희망 날짜 및 시간
             </label>
@@ -166,7 +166,7 @@ export default function InstallRequestPostPage() {
               onChange={(e) => setSecondDateTime(e.target.value)}
               required
             />
-          </div>
+          </div> */}
 
           {/* 1차 희망 날짜 및 시간 */}
           <div className="col-span-2">
