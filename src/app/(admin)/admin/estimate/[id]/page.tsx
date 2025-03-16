@@ -5,18 +5,31 @@ import axios from "axios";
 
 interface InstallDTO {
   installId: number;
-  installName: string;
-  installAddress: string;
-  installDetailAddress: string;
-  installPhone: string;
-  installNumber: string;
-  installEmail: string;
-  installDescription: string;
-  requestDate: string;
-  reservationFirstDate?: string;
-  reservationSecondDate?: string;
-  installStatus: string;
-  installNote?: string;
+  installName?: string;        
+  installAddress?: string;      
+  installDetailAddress?: string;
+  installPhone?: string;
+  installEmail?: string;
+  installDescription?: string;    
+  reservationFirstDate?: string;  
+  reservationSecondDate?: string; 
+  requestDate?: string;         
+  installStatus?: string;
+  installNote?: string;         
+}
+
+function formatDateTime(dateStr?: string): string {
+  if (!dateStr) return "없음";
+  const dt = new Date(dateStr);
+  if (Number.isNaN(dt.getTime())) return "없음";
+
+  const year = dt.getFullYear();
+  const month = dt.getMonth() + 1;
+  const day = dt.getDate();
+  const hours = dt.getHours();
+  const minutes = dt.getMinutes();
+
+  return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")} ${hours}시 ${String(minutes).padStart(2, "0")}분`;
 }
 
 export default function EstimateDetailAdminPage() {
@@ -50,9 +63,14 @@ export default function EstimateDetailAdminPage() {
     fetchDetail();
   }, [id]);
 
-  const formatDate = (dateStr?: string) => {
-    if (!dateStr) return "";
-    return new Date(dateStr).toLocaleString("ko-KR");
+  const handleEdit = () => {
+    router.push(`/admin/estimate/${id}/edit`);
+  };
+  const handleDelete = () => {
+    alert("삭제 기능 (예시)");
+  };
+  const handleAccept = () => {
+    alert("견적 수락 (예시)");
   };
 
   if (loading) {
@@ -74,57 +92,98 @@ export default function EstimateDetailAdminPage() {
   if (!detailData) return null;
 
   return (
-    <div className="min-h-screen bg-white text-black p-6 font-gowun">
+    <div className="min-h-screen bg-white text-black px-6 py-8 font-gowun">
       <div className="max-w-5xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">견적 신청 상세 정보</h1>
-        <div className="border border-gray-300 rounded p-6">
-          <p>
-            <strong>신청 ID:</strong> {detailData.installId}
-          </p>
-          <p>
-            <strong>이름:</strong> {detailData.installName}
-          </p>
-          <p>
-            <strong>전화번호:</strong> {detailData.installPhone}
-          </p>
-          <p>
-            <strong>이메일:</strong> {detailData.installEmail}
-          </p>
-          <p>
-            <strong>주소:</strong> {detailData.installAddress}
-          </p>
-          <p>
-            <strong>상세주소:</strong> {detailData.installDetailAddress}
-          </p>
-          <p>
-            <strong>신청 내용:</strong> {detailData.installDescription}
-          </p>
-          <p>
-            <strong>희망 일정 1:</strong>{" "}
-            {detailData.reservationFirstDate || "없음"}
-          </p>
-          <p>
-            <strong>희망 일정 2:</strong>{" "}
-            {detailData.reservationSecondDate || "없음"}
-          </p>
-          <p>
-            <strong>신청 날짜:</strong> {formatDate(detailData.requestDate)}
-          </p>
-          <p>
-            <strong>상태:</strong> {detailData.installStatus}
-          </p>
-          {detailData.installNote && (
-            <p>
-              <strong>비고:</strong> {detailData.installNote}
+        {/* 헤더 영역 */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold">
+              {detailData.installDescription || "에어컨 설치 문의"}
+            </h1>
+            <p className="text-gray-500 mt-1">
+              등록일자: {formatDateTime(detailData.requestDate)}
             </p>
-          )}
+          </div>
+
+          <div className="mt-3 md:mt-0 space-x-2">
+            <button
+              onClick={handleEdit}
+              className="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400"
+            >
+              수정
+            </button>
+            <button
+              onClick={handleDelete}
+              className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+            >
+              삭제
+            </button>
+            <button
+              onClick={handleAccept}
+              className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+            >
+              견적 수락
+            </button>
+          </div>
         </div>
+
+        {/* 메인 내용 */}
+        <div className="bg-white text-black p-6 rounded-md border border-gray-300">
+          {/* 신청자 정보 */}
+          <div className="mb-6">
+            <h2 className="text-lg font-semibold mb-2">신청자 정보</h2>
+            <p className="leading-relaxed">
+              <strong>이름:</strong>{" "}
+              {detailData.installName?.trim() || "없음"}
+            </p>
+            <p className="leading-relaxed">
+              <strong>전화번호:</strong>{" "}
+              {detailData.installPhone?.trim() || "없음"}
+            </p>
+            <p className="leading-relaxed">
+              <strong>이메일:</strong>{" "}
+              {detailData.installEmail?.trim() || "없음"}
+            </p>
+          </div>
+
+          {/* 설치 희망 주소 */}
+          <div className="mb-6">
+            <h2 className="text-lg font-semibold mb-2">설치 희망 주소</h2>
+            <p className="leading-relaxed">
+              {detailData.installAddress?.trim() || "없음"}
+            </p>
+            <p className="leading-relaxed">
+              {detailData.installDetailAddress?.trim() || "없음"}
+            </p>
+          </div>
+
+          {/* 희망 설치일 */}
+          <div className="mb-6">
+            <h2 className="text-lg font-semibold mb-2">희망 설치일</h2>
+            <p className="mb-2">1차: {formatDateTime(detailData.reservationFirstDate)}</p>
+            <p>2차: {formatDateTime(detailData.reservationSecondDate)}</p>
+          </div>
+
+          {/* 상태 + 비고 */}
+          <div className="mb-6">
+            <h2 className="text-lg font-semibold mb-2">상태 및 기타</h2>
+            <p>
+              <strong>상태:</strong> {detailData.installStatus || "없음"}
+            </p>
+            <p>
+              <strong>비고:</strong>{" "}
+              {detailData.installNote?.trim() || "없음"}
+            </p>
+          </div>
+        </div>
+
+        {/* 목록으로 버튼 */}
         <div className="mt-6">
           <button
             onClick={() => router.back()}
             className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
           >
-            목록으로
+            목록
           </button>
         </div>
       </div>
