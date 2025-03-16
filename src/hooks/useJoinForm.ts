@@ -18,6 +18,7 @@ export const useJoinForm = () => {
     userName: "",
     password: "",
     confirmPassword: "",
+    phoneNumber: "",
     email: "",
   });
 
@@ -33,7 +34,17 @@ export const useJoinForm = () => {
     if (name === "userLogin") error = validateUserLogin(value) || "";
     if (name === "password") error = validatePassword(value) || "";
     if (name === "confirmPassword") error = validateConfirmPassword(formData.password, value) || "";
-    if (name === "email") error = validateEmail(value) || "";
+    if (name === "phoneNumber") {
+      if (!value) {
+        error = "전화번호는 필수입니다.";
+      } else if (!/^\d+$/.test(value)) {
+        error = "전화번호는 숫자만 입력할 수 있습니다.";
+      } else if (value.length < 10) {
+        error = "전화번호를 다시 확인해주세요.";
+      } else {
+        error = "";
+      }
+    }    if (name === "email") error = validateEmail(value) || "";
 
     setErrors((prev) => ({ ...prev, [name]: error }));
 

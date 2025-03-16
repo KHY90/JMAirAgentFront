@@ -10,12 +10,12 @@ export default function JoinPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 최종 검증
     const newErrors = {
-      userLogin: errors.userLogin || "",
+      userLogin: errors.userLogin || "아이디는 필수입니다.",
       userName: formData.userName ? "" : "이름은 필수입니다.",
-      password: errors.password || "",
+      password: errors.password || "비밀번호는 필수입니다.",
       confirmPassword: errors.confirmPassword || "",
+      phoneNumber: errors.phoneNumber || "핸드폰 번호는 필수입니다.",
       email: errors.email || "",
     };
 
@@ -116,11 +116,13 @@ export default function JoinPage() {
           <input
             type="text"
             name="phoneNumber"
-            placeholder="전화번호 (선택)"
+            placeholder="전화번호(숫자만 입력해 주세요.)"
             value={formData.phoneNumber}
             onChange={handleChange}
             className="w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500"
           />
+          {errors.phoneNumber && <p className="text-red-500 text-sm">{errors.phoneNumber}</p>}
+
 
           {/* 이메일 입력 */}
           <input
