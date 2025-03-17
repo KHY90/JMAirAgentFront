@@ -14,6 +14,10 @@ const Header = observer(() => {
     }
   };
 
+  const isAdmin = authStore.isAuthenticated &&
+    authStore.user &&
+    ["SUPERADMIN", "ADMIN", "ADMINWATCHER", "ENGINEER"].includes(authStore.user.userGrade);
+
   return (
     <header className="bg-white shadow-md">
       <div className="py-2 px-6 bg-gray-100">
@@ -22,7 +26,9 @@ const Header = observer(() => {
             <>
               <span className="text-gray-700">{authStore.user.userName}님, 환영합니다!</span>
               <Link href="/mypage" className="hover:text-blue-400">마이페이지</Link>
-              <Link href="/admin" className="hover:text-blue-400">관리자</Link>
+              {isAdmin && (
+                <Link href="/admin" className="hover:text-blue-400">관리자</Link>
+              )}
               <button onClick={handleLogout} className="hover:text-red-400">
                 로그아웃
               </button>

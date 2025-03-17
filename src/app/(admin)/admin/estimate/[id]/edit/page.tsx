@@ -150,7 +150,7 @@ export default function EstimateEditAdminPage() {
               value={formData.installNote}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded px-3 py-2 h-24"
-              placeholder="관리자 메모, 작업 참고 사항 등을 입력"
+              placeholder="담당 설치 기사, 관리자 메모, 작업 참고 사항 등을 입력"
             />
           </div>
 

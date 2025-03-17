@@ -34,7 +34,14 @@ export default function AsListPage() {
           { withCredentials: true }
         );
 
-        const mappedData: EstimateItem[] = response.data.map((item: any) => ({
+        interface InstallItem {
+          installId: number;
+          installDescription: string;
+          installName: string;
+          requestDate: string;
+        }
+
+        const mappedData: EstimateItem[] = response.data.map((item: InstallItem) => ({
           id: item.installId,
           title: item.installDescription || "견적적 신청 문의",
           applicant: item.installName,

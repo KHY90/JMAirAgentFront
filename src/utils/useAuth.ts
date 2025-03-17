@@ -8,7 +8,7 @@ export function useAuthUpdate() {
     const fetchCurrentUser = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/current`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/user/current`,
           { withCredentials: true }
         );
         if (response.data && response.data.user) {

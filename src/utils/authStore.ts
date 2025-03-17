@@ -4,14 +4,14 @@ class AuthStore {
   accessToken: string | null = null;
   refreshToken: string | null = null;
   isAuthenticated: boolean = false;
-  user: { userLogin: string; userName: string } | null = null;
+  user: { userLogin: string; userName: string; userGrade: string; } | null = null;
 
   constructor() {
     makeAutoObservable(this);
   }
   
   // 로그인한 사용자 정보 저장
-  setUser(user: { userLogin: string; userName: string } | null) {
+  setUser(user: { userLogin: string; userName: string; userGrade: string; } | null) {
     this.user = user;
     this.isAuthenticated = user !== null;
   }
