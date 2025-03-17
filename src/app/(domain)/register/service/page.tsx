@@ -16,7 +16,6 @@ export default function ServicePage() {
     detailAddress: "",
     productType: "벽걸이형",
     description: "",
-    preferredDate: "",
     reservationFirstDate: "",
     reservationSecondDate: "",
   });
@@ -37,16 +36,15 @@ export default function ServicePage() {
     setSuccess("");
 
     const payload = {
-      serviceName: formData.name,
-      servicePhone: formData.phone,
-      serviceEmail: formData.email,
-      serviceAddress: address,
-      serviceDetailAddress: formData.detailAddress,
-      serviceDescription: formData.description,
-      servicePassword: password,
-      reservationFirstDate: formData.reservationFirstDate,
-      reservationSecondDate: formData.reservationSecondDate,
-      preferredDate: formData.preferredDate,
+      asName: formData.name, 
+      asNumber: formData.phone, 
+      asEmail: formData.email,
+      asAdress: address,
+      asDetailAdress: formData.detailAddress,
+      asDescription: formData.description,
+      asPassword: password,
+      asFirstReservationTime: formData.reservationFirstDate,
+      asSecondReservationTime: formData.reservationSecondDate,
       productType: formData.productType,
     };
 
@@ -57,6 +55,7 @@ export default function ServicePage() {
         { headers: { "Content-Type": "application/json" }, withCredentials: true }
       );
       alert("A/S 신청이 완료되었습니다. 빠른 시일 내에 연락드리겠습니다.");
+      router.push("/")
 
       setFormData({
         name: "",
@@ -65,7 +64,6 @@ export default function ServicePage() {
         detailAddress: "",
         productType: "벽걸이형",
         description: "",
-        preferredDate: "",
         reservationFirstDate: "",
         reservationSecondDate: "",
       });
@@ -86,19 +84,14 @@ export default function ServicePage() {
   return (
     <div className="min-h-screen bg-white text-black flex flex-col items-center py-8 font-gowun">
       <h1 className="text-2xl font-bold mb-6">A/S 신청</h1>
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-xl border border-gray-300 rounded-md p-6"
-      >
+      <form onSubmit={handleSubmit} className="w-full max-w-xl border border-gray-300 rounded-md p-6">
         {/* 에러/성공 메시지 */}
         {error && <div className="mb-4 text-red-500">{error}</div>}
         {success && <div className="mb-4 text-green-500">{success}</div>}
 
         {/* 이름 */}
         <div className="mb-4">
-          <label className="block font-semibold mb-1" htmlFor="name">
-            이름
-          </label>
+          <label className="block font-semibold mb-1" htmlFor="name">이름</label>
           <input
             id="name"
             type="text"
@@ -113,9 +106,7 @@ export default function ServicePage() {
 
         {/* 연락처 */}
         <div className="mb-4">
-          <label className="block font-semibold mb-1" htmlFor="phone">
-            연락처
-          </label>
+          <label className="block font-semibold mb-1" htmlFor="phone">연락처</label>
           <input
             id="phone"
             type="tel"
@@ -130,9 +121,7 @@ export default function ServicePage() {
 
         {/* 이메일 */}
         <div className="mb-4">
-          <label className="block font-semibold mb-1" htmlFor="email">
-            이메일
-          </label>
+          <label className="block font-semibold mb-1" htmlFor="email">이메일</label>
           <input
             id="email"
             type="email"
@@ -218,7 +207,7 @@ export default function ServicePage() {
           </label>
           <textarea
             name="description"
-            placeholder={`A/S 신청 시 요청하시는 사항을 기입해주세요.`}
+            placeholder="A/S 신청 시 요청하시는 사항을 기입해주세요."
             className="w-full border border-gray-300 rounded px-3 py-2 h-40 overflow-y-auto"
             maxLength={1000}
             value={formData.description}
@@ -246,7 +235,7 @@ export default function ServicePage() {
           />
         </div>
 
-        {/* 작성하기 / 취소 버튼 */}
+        {/* 버튼 영역 */}
         <div className="flex space-x-2 justify-center mt-6">
           <button
             type="submit"
