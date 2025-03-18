@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./styles/globals.css";
 import AuthUpdater from "../components/AuthUpdater";
-
 import Header from "./(common)/header";
 import Footer from "./(common)/footer";
 import Script from "next/script";
@@ -14,6 +13,21 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko">
+       {/* GA4 Global Site Tag */}
+       <Script
+          strategy="afterInteractive"
+          src={`https://www.googletagmanager.com/gtag/js?id=G-CPZ5VQJXH8`}
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-CPZ5VQJXH8', {
+              page_path: window.location.pathname,
+            });
+          `}
+        </Script>
       {/* 주소 검색용 스크립트트 */}
       <head>
         <Script
