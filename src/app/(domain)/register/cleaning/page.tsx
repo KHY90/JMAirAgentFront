@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useAddressSearch } from "@/utils/useAddressSearch";
 import CustomDateTimePicker from "@/components/CustomDateTimePicker";
+import Image from "next/image";
 
 export default function CleaningPage() {
   const router = useRouter();
@@ -74,14 +75,18 @@ export default function CleaningPage() {
     }
   };
 
-  const handleCancel = () => {
-    if (window.confirm("신청을 취소하시겠습니까?")) {
-      router.back();
-    }
-  };
-
   return (
     <div className="min-h-screen bg-white text-black flex flex-col items-center py-8 font-gowun">
+      {/* 베너 이미지 */}
+      <div className="w-full max-w-xl relative h-64 mb-6">
+        <Image
+          src="/images/character/cleanbanner.webp"
+          alt="청소 베너"
+          fill
+          sizes="(max-width: 768px) 100vw, 50vw"
+          className="object-cover"
+        />
+      </div>
       <h1 className="text-2xl font-bold mb-6">에어컨 세척 신청</h1>
       <form
         onSubmit={handleSubmit}
@@ -93,42 +98,51 @@ export default function CleaningPage() {
 
         {/* 이름 */}
         <div className="mb-4">
-          <label className="block font-semibold mb-1">이름</label>
+          <label className="block font-semibold mb-1" htmlFor="name">
+            이름
+          </label>
           <input
+            id="name"
             type="text"
             name="name"
             placeholder="이름을 입력하세요"
+            className="w-full border border-gray-300 rounded px-3 py-2"
             value={formData.name}
             onChange={handleChange}
-            className="w-full border border-gray-300 rounded px-3 py-2"
             required
           />
         </div>
 
         {/* 연락처 */}
         <div className="mb-4">
-          <label className="block font-semibold mb-1">연락처</label>
+          <label className="block font-semibold mb-1" htmlFor="phone">
+            연락처
+          </label>
           <input
+            id="phone"
             type="tel"
             name="phone"
             placeholder="010-0000-0000"
+            className="w-full border border-gray-300 rounded px-3 py-2"
             value={formData.phone}
             onChange={handleChange}
-            className="w-full border border-gray-300 rounded px-3 py-2"
             required
           />
         </div>
 
         {/* 이메일 */}
         <div className="mb-4">
-          <label className="block font-semibold mb-1">이메일</label>
+          <label className="block font-semibold mb-1" htmlFor="email">
+            이메일
+          </label>
           <input
+            id="email"
             type="email"
             name="email"
             placeholder="example@example.com"
+            className="w-full border border-gray-300 rounded px-3 py-2"
             value={formData.email}
             onChange={handleChange}
-            className="w-full border border-gray-300 rounded px-3 py-2"
             required
           />
         </div>
@@ -141,7 +155,7 @@ export default function CleaningPage() {
               type="text"
               name="address"
               placeholder="기본주소"
-              className="flex-1 border border-gray-300 rounded px-3 py-2"
+              className="w-3/4 sm:flex-1 border border-gray-300 rounded px-3 py-2"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               required
@@ -149,7 +163,7 @@ export default function CleaningPage() {
             <button
               type="button"
               onClick={searchAddress}
-              className="border border-gray-300 rounded px-3 py-2 bg-gray-100 hover:bg-gray-200"
+              className="border border-gray-400 rounded px-3 py-2 bg-gray-100 hover:bg-gray-200 text-xs sm:text-sm md:text-base"
             >
               주소 검색
             </button>
@@ -201,10 +215,12 @@ export default function CleaningPage() {
 
         {/* 요청사항 */}
         <div className="mb-4">
-          <label className="block font-semibold mb-1">요청사항 (최대 1000자)</label>
+          <label className="block font-semibold mb-1">
+            요청사항 (최대 1000자)
+          </label>
           <textarea
             name="note"
-            placeholder={`에어컨 세척 시 요청하시는 사항을 기입해주세요.`}
+            placeholder="에어컨 세척 시 요청하시는 사항을 기입해주세요."
             className="w-full border border-gray-300 rounded px-3 py-2 h-40 overflow-y-auto"
             maxLength={1000}
             value={formData.note}
@@ -242,8 +258,10 @@ export default function CleaningPage() {
           </button>
           <button
             type="button"
-            onClick={handleCancel}
-            className="bg-gray-300 text-black px-6 py-2 rounded-md hover:bg-gray-400"
+            onClick={() => {
+              if (window.confirm("신청을 취소하시겠습니까?")) router.back();
+            }}
+            className="bg-danger text-white px-6 py-2 rounded-md hover:bg-red-800"
           >
             취소
           </button>
