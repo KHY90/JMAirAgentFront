@@ -1,28 +1,42 @@
 "use client";
-import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
+import { useRouter } from "next/navigation";
 import authStore from "@/utils/authStore";
+import { useAuthUpdate } from "@/utils/useAuth";
 
 const allowedRoles = ["SUPERADMIN", "ADMIN", "ADMINWATCHER", "ENGINEER"];
 
-const withAdminAuth = <P extends object>(Component: React.ComponentType<P>): React.FC<P> => {
-  const WrappedComponent: React.FC<P> = observer((props: P) => {
+function withAdminAuth<P extends object>(WrappedComponent: React.ComponentType<P>) {
+  const AdminAuthComponent: React.FC<P> = observer((props: P) => {
     const router = useRouter();
+    const [isChecking, setIsChecking] = useState(true);
+
+    useAuthUpdate();
 
     useEffect(() => {
-      if (!authStore.isAuthenticated || !authStore.user || !allowedRoles.includes(authStore.user.userGrade)) {
-        router.push("/login");
+      if (!authStore.user || !authStore.isAuthenticated) {
+        return;
       }
-    }, [router]);
 
-    if (!authStore.isAuthenticated || !authStore.user || !allowedRoles.includes(authStore.user.userGrade)) {
-      return null;
+      if (!allowedRoles.includes(authStore.user.userGrade)) {
+        router.push("/login");
+      } else {
+        setIsChecking(false);
+      }
+    }, [authStore.user, authStore.isAuthenticated, router]);
+
+    if (isChecking) {
+      return (
+        <div className="min-h-screen flex items-center justify-center text-gray-600">
+          관리자 권한 확인 중...
+        </div>
+      );
     }
-
-    return <Component {...props} />;
+    return <WrappedComponent {...props} />;
   });
-  return WrappedComponent;
-};
+
+  return AdminAuthComponent;
+}
 
 export default withAdminAuth;
