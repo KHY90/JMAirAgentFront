@@ -26,7 +26,6 @@ const Header = observer(() => {
 
   return (
     <header className="bg-white shadow-md relative">
-      {/* Top Bar: 사용자 정보 (모바일/데스크탑 모두 표시) */}
       <div className="px-6 py-2 bg-gray-100 flex justify-end items-center space-x-4">
         {authStore.isAuthenticated && authStore.user ? (
           <>
@@ -57,12 +56,10 @@ const Header = observer(() => {
         )}
       </div>
 
-      {/* Navigation Bar */}
       <div className="px-6 py-4 flex justify-between items-center">
         <Link href="/">
           <span className="font-bold text-2xl">진명에어컨</span>
         </Link>
-        {/* 데스크탑 내비게이션: 768px 이상 */}
         <nav className="hidden md:flex space-x-4">
           <Link href="/about" className="hover:text-blue-500 text-base">
             회사소개
@@ -83,13 +80,11 @@ const Header = observer(() => {
             공지사항
           </Link>
         </nav>
-        {/* 모바일 내비게이션: 768px 미만 */}
         <button onClick={toggleMenu} className="md:hidden text-3xl focus:outline-none">
           ☰
         </button>
       </div>
 
-      {/* 모바일 메뉴 (햄버거 메뉴) */}
       {menuOpen && (
         <div className="md:hidden bg-white shadow-md">
           <nav className="flex flex-col p-4 space-y-2">
