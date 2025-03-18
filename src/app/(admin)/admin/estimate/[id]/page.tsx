@@ -2,33 +2,33 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
+import { getInstallStatusText, getUserGradeText } from "@/utils/transform";
 
 interface InstallDTO {
   installId: number;
-  installName?: string;        
-  installAddress?: string;      
+  installName?: string;
+  installAddress?: string;
   installDetailAddress?: string;
   installPhone?: string;
   installEmail?: string;
-  installDescription?: string;    
-  reservationFirstDate?: string;  
-  reservationSecondDate?: string; 
-  requestDate?: string;         
+  installDescription?: string;
+  reservationFirstDate?: string;
+  reservationSecondDate?: string;
+  requestDate?: string;
   installStatus?: string;
-  installNote?: string;         
+  installNote?: string;
+  registeredUserGrade?: string;
 }
 
 function formatDateTime(dateStr?: string): string {
   if (!dateStr) return "없음";
   const dt = new Date(dateStr);
   if (Number.isNaN(dt.getTime())) return "없음";
-
   const year = dt.getFullYear();
   const month = dt.getMonth() + 1;
   const day = dt.getDate();
   const hours = dt.getHours();
   const minutes = dt.getMinutes();
-
   return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")} ${hours}시 ${String(minutes).padStart(2, "0")}분`;
 }
 
@@ -59,18 +59,28 @@ export default function EstimateDetailAdminPage() {
         setLoading(false);
       }
     };
-
     fetchDetail();
   }, [id]);
+
 
   const handleEdit = () => {
     router.push(`/admin/estimate/${id}/edit`);
   };
-  const handleDelete = () => {
-    alert("삭제 기능 (예시)");
-  };
-  const handleAccept = () => {
-    alert("견적 수락 (예시)");
+
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm("정말로 삭제하시겠습니까?");
+    if (!confirmDelete) return;
+    try {
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/install/${id}/delete`,
+        { withCredentials: true }
+      );
+      alert("삭제되었습니다.");
+      router.back();
+    } catch (err) {
+      console.error("삭제 요청 오류:", err);
+      alert("삭제에 실패했습니다. 다시 시도해주세요.");
+    }
   };
 
   if (loading) {
@@ -108,21 +118,15 @@ export default function EstimateDetailAdminPage() {
           <div className="mt-3 md:mt-0 space-x-2">
             <button
               onClick={handleEdit}
-              className="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400"
+              className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
             >
-              수정
+              수락 및 수정
             </button>
             <button
               onClick={handleDelete}
               className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
             >
               삭제
-            </button>
-            <button
-              onClick={handleAccept}
-              className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
-            >
-              견적 수락
             </button>
           </div>
         </div>
@@ -133,16 +137,13 @@ export default function EstimateDetailAdminPage() {
           <div className="mb-6">
             <h2 className="text-lg font-semibold mb-2">신청자 정보</h2>
             <p className="leading-relaxed">
-              <strong>이름:</strong>{" "}
-              {detailData.installName?.trim() || "없음"}
+              <strong>이름:</strong> {detailData.installName?.trim() || "없음"}
             </p>
             <p className="leading-relaxed">
-              <strong>전화번호:</strong>{" "}
-              {detailData.installPhone?.trim() || "없음"}
+              <strong>전화번호:</strong> {detailData.installPhone?.trim() || "없음"}
             </p>
             <p className="leading-relaxed">
-              <strong>이메일:</strong>{" "}
-              {detailData.installEmail?.trim() || "없음"}
+              <strong>이메일:</strong> {detailData.installEmail?.trim() || "없음"}
             </p>
           </div>
 
@@ -164,12 +165,19 @@ export default function EstimateDetailAdminPage() {
             <p>2차: {formatDateTime(detailData.reservationSecondDate)}</p>
           </div>
 
-          {/* 상태 + 비고 */}
+          {/* 상태 및 비고 */}
           <div className="mb-6">
             <h2 className="text-lg font-semibold mb-2">상태 및 기타</h2>
             <p>
-              <strong>상태:</strong> {detailData.installStatus || "없음"}
+              <strong>상태:</strong>{" "}
+              {getInstallStatusText(detailData.installStatus || "")}
             </p>
+            {detailData.registeredUserGrade && (
+              <p>
+                <strong>회원 여부:</strong>{" "}
+                {getUserGradeText(detailData.registeredUserGrade|| "")}
+              </p>
+            )}
             <p>
               <strong>비고:</strong>{" "}
               {detailData.installNote?.trim() || "없음"}
