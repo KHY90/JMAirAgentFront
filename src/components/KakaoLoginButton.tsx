@@ -27,7 +27,7 @@ export default function KakaoLoginButton() {
       className="w-1/2 bg-yellow-400 text-black rounded-md hover:bg-yellow-500 flex items-center justify-center h-12 relative overflow-hidden"
     >
       <Image
-        src="/images/login/kakao_login_medium_narrow.png"
+        src="/images/login/kakao_login_large_narrow.png"
         alt="Kakao"
         fill
         className="object-cover"

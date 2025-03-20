@@ -57,6 +57,13 @@ export default function LoginPage() {
             회원가입
           </Link>
         </p>
+        {/* 아이디/ 비번 찾기 */}
+        <p className="mt-4 text-center text-gray-600">
+          아이디/비밀번호가 기억나지 않으시나요?{" "}
+          <Link href="/find" className="text-blue-500 hover:underline">
+            아이디 / 비밀번호 찾기
+          </Link>
+        </p>
       </div>
     </div>
   );
