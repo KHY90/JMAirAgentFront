@@ -8,8 +8,8 @@ export default function AboutPage() {
     <main className="w-full min-h-screen bg-gray-50">
       <div className="bg-white py-20 text-center">
         <h1 className="text-4xl font-bold mb-4">회사 소개</h1>
-        <p className="text-gray-600">
-          진명에어컨에 오신 것을 환영합니다.  
+        <p className="text-gray-600 min-h-[20vh]">
+          진명에어컨에 오신 것을 환영합니다.
         </p>
       </div>
 

@@ -10,7 +10,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="w-60 bg-gray-100 border-r border-gray-300 p-6">
+    <aside className="w-60 mt-2 bg-white border-r border-gray-300 p-6">
       <h2 className="text-xl font-bold mb-4">설치비용</h2>
       <ul className="space-y-2">
         {menuItems.map((item) => (

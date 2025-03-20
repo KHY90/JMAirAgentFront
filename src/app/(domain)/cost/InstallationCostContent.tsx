@@ -9,9 +9,9 @@ export default function InstallationCostContent() {
         <h3 className="text-xl font-semibold mb-2">벽걸이형 7평 이하 에어컨</h3>
         <div className="bg-white rounded shadow p-4 border border-gray-200">
           <ul className="list-disc list-inside space-y-1 text-gray-700">
-            <li>기본 설치비 포함 (배관 5m 이내)</li>
-            <li>실외기 거치대(앵글) 별도</li>
-            <li>배관 추가 시 1m 당 추가 비용</li>
+            <li>기본 설치비(5만원) 포함 (배관 5m 이내)</li>
+            <li>실외기 거치대(앵글) 별도 : 15만원부터</li>
+            <li>배관 추가 시 1m 당 추가 비용 : 2만 5천원 / 3만 5천원</li>
             <li>기타 비용은 현장 상황에 따라 달라질 수 있음</li>
           </ul>
         </div>
