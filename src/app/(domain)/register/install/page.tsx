@@ -30,7 +30,12 @@ export default function CleaningPage() {
     >
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (name === "phone") {
+      const numericValue = value.replace(/[^0-9]/g, "");
+      setFormData((prev) => ({ ...prev, [name]: numericValue }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -126,10 +131,12 @@ export default function CleaningPage() {
               id="phone"
               type="tel"
               name="phone"
-              placeholder="010-0000-0000"
+              placeholder="01012345678"
               className="w-full border border-gray-300 rounded px-3 py-2"
               value={formData.phone}
               onChange={handleChange}
+              inputMode="numeric"
+              pattern="[0-9]*"
               required
             />
           </div>
@@ -228,7 +235,7 @@ export default function CleaningPage() {
             </label>
             <textarea
               name="note"
-              placeholder={`에어컨 세척 시 요청하시는 사항을 기입해주세요.`}
+              placeholder="에어컨 세척 시 요청하시는 사항을 기입해주세요."
               className="w-full border border-gray-300 rounded px-3 py-2 h-40 overflow-y-auto"
               maxLength={1000}
               value={formData.note}

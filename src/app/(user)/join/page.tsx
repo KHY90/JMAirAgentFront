@@ -1,22 +1,30 @@
 "use client";
 import { useRouter } from "next/navigation";
+import React from "react";
 import { useJoinForm } from "@/hooks/useJoinForm";
+import axios from "axios";
 
 export default function JoinPage() {
   const router = useRouter();
-  const { formData, errors, isUserLoginChecked, handleChange, handleCheckUserLogin, setErrors } = useJoinForm();
+  const {
+    formData,
+    errors,
+    isUserLoginChecked,
+    handleChange,
+    handleCheckUserLogin,
+    setErrors,
+  } = useJoinForm();
 
-  // 회원가입 제출 핸들러
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const newErrors = {
-      userLogin: errors.userLogin || "아이디는 필수입니다.",
+      userLogin: formData.userLogin ? errors.userLogin : "아이디는 필수입니다.",
       userName: formData.userName ? "" : "이름은 필수입니다.",
-      password: errors.password || "비밀번호는 필수입니다.",
-      confirmPassword: errors.confirmPassword || "",
-      phoneNumber: errors.phoneNumber || "핸드폰 번호는 필수입니다.",
-      email: errors.email || "",
+      password: formData.password ? errors.password : "비밀번호는 필수입니다.",
+      confirmPassword: formData.confirmPassword ? errors.confirmPassword : "",
+      phoneNumber: formData.phoneNumber ? errors.phoneNumber : "핸드폰 번호는 필수입니다.",
+      email: formData.email ? errors.email : "",
     };
 
     setErrors(newErrors);
@@ -29,14 +37,14 @@ export default function JoinPage() {
     }
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/user/join`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) throw new Error("회원가입 실패");
-
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/user/join`,
+        formData,
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
       alert("회원가입이 완료되었습니다!");
       router.push("/login");
     } catch (error) {
@@ -123,7 +131,6 @@ export default function JoinPage() {
           />
           {errors.phoneNumber && <p className="text-red-500 text-sm">{errors.phoneNumber}</p>}
 
-
           {/* 이메일 입력 */}
           <input
             type="email"
@@ -146,7 +153,7 @@ export default function JoinPage() {
             <button
               type="button"
               onClick={handleCancel}
-              className="w-[30%] bg-gray-300 text-black py-3 rounded-md hover:bg-danger"
+              className="w-[30%] bg-gray-300 text-black py-3 rounded-md hover:bg-gray-400"
             >
               취소
             </button>

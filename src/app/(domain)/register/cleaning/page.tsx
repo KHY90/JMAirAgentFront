@@ -28,7 +28,12 @@ export default function CleaningPage() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (name === "phone") {
+      const numericValue = value.replace(/[^0-9]/g, "");
+      setFormData((prev) => ({ ...prev, [name]: numericValue }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -122,10 +127,12 @@ export default function CleaningPage() {
             id="phone"
             type="tel"
             name="phone"
-            placeholder="010-0000-0000"
+            placeholder="01012345678"
             className="w-full border border-gray-300 rounded px-3 py-2"
             value={formData.phone}
             onChange={handleChange}
+            inputMode="numeric"
+            pattern="[0-9]*"
             required
           />
         </div>

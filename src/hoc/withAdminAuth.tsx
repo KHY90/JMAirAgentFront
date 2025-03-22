@@ -20,7 +20,7 @@ function withAdminAuth<P extends object>(WrappedComponent: React.ComponentType<P
       }
 
       if (!allowedRoles.includes(authStore.user.userGrade)) {
-        router.push("/login");
+        router.push("/");
       } else {
         setIsChecking(false);
       }

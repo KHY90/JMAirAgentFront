@@ -88,10 +88,14 @@ export default function InstallRequestPostPage() {
             <input
               id="phone"
               type="text"
-              placeholder="핸드폰 번호를 입력하세요. 000-0000-0000"
+              placeholder="01012345678"
               className="w-full border border-gray-300 rounded px-3 py-2"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={(e) =>
+                setPhone(e.target.value.replace(/[^0-9]/g, ""))
+              }
+              inputMode="numeric"
+              pattern="[0-9]*"
               required
             />
           </div>
