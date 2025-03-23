@@ -2,14 +2,26 @@
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { getInstallStatusText } from "@/utils/transform";
+import PasswordModal from "@/components/PasswordModal";
 
 interface ResponseApplicationData {
-  id: number;
-  requestDate: string;
+  installId?: number;
+  cleanId?: number;
+  asId?: number;
+  requestDate?: string;
+  asStartTime?: string;
+  cleanStartTime?: string;
+  asStatus?: string;
+  cleanStatus?: string;
+  installStatus?: string;
   status: string;
 }
 
-interface ApplicationItem extends ResponseApplicationData {
+interface ApplicationItem {
+  id: number;
+  requestDate: string;
+  status: string;
   type: "견적" | "세척" | "A/S";
 }
 
@@ -19,6 +31,8 @@ export default function ApplicationHistoryPage() {
   const [phone, setPhone] = useState("");
   const [applications, setApplications] = useState<ApplicationItem[]>([]);
   const [error, setError] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<ApplicationItem | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,13 +54,28 @@ export default function ApplicationHistoryPage() {
       ]);
 
       const installApps = results[0].status === "fulfilled"
-        ? results[0].value.data.map((item: ResponseApplicationData) => ({ ...item, type: "견적" as const }))
+        ? results[0].value.data.map((item) => ({
+            id: item.installId || 0,
+            type: "견적" as const,
+            requestDate: item.requestDate || "",
+            status: item.installStatus || "",
+          }))
         : [];
       const cleaningApps = results[1].status === "fulfilled"
-        ? results[1].value.data.map((item: ResponseApplicationData) => ({ ...item, type: "세척" as const }))
+        ? results[1].value.data.map((item) => ({
+            id: item.cleanId || 0,
+            type: "세척" as const,
+            requestDate: item.cleanStartTime || "",
+            status: item.cleanStatus || "",
+          }))
         : [];
       const asApps = results[2].status === "fulfilled"
-        ? results[2].value.data.map((item: ResponseApplicationData) => ({ ...item, type: "A/S" as const }))
+        ? results[2].value.data.map((item) => ({
+            id: item.asId || 0,
+            type: "A/S" as const,
+            requestDate: item.asStartTime || "",
+            status: item.asStatus || "",
+          }))
         : [];
 
       const allApps = [...installApps, ...cleaningApps, ...asApps];
@@ -59,19 +88,28 @@ export default function ApplicationHistoryPage() {
   };
 
   const handleItemClick = (item: ApplicationItem) => {
-    let path = "";
-    switch (item.type) {
-      case "견적":
-        path = `/search/estimate/${item.id}`;
-        break;
-      case "세척":
-        path = `/search/cleaning/${item.id}`;
-        break;
-      case "A/S":
-        path = `/search/as/${item.id}`;
-        break;
+    setSelectedItem(item);
+    setIsModalOpen(true);
+  };
+
+  const handlePasswordSubmit = (password: string) => {
+    if (selectedItem) {
+      let path = "";
+      switch (selectedItem.type) {
+        case "견적":
+          path = `/search/install/${selectedItem.id}?password=${encodeURIComponent(password)}`;
+          break;
+        case "세척":
+          path = `/search/cleaning/${selectedItem.id}?password=${encodeURIComponent(password)}`;
+          break;
+        case "A/S":
+          path = `/search/service/${selectedItem.id}?password=${encodeURIComponent(password)}`;
+          break;
+      }
+      setIsModalOpen(false);
+      setSelectedItem(null);
+      router.push(path);
     }
-    router.push(path);
   };
 
   return (
@@ -84,22 +122,27 @@ export default function ApplicationHistoryPage() {
               <th className="py-2 px-4 text-center">번호</th>
               <th className="py-2 px-4 text-center">신청 종류</th>
               <th className="py-2 px-4 text-center">신청일</th>
-              <th className="py-2 px-4 text-center">상태</th>
+              <th className="py-2 px-4 text-center">진행상태</th>
             </tr>
           </thead>
           <tbody className="text-center">
-            {applications.map((item, index) => (
-              <tr
-                key={item.id}
-                className="cursor-pointer hover:bg-gray-50"
-                onClick={() => handleItemClick(item)}
-              >
-                <td className="py-2 px-4">{index + 1}</td>
-                <td className="py-2 px-4">{item.type}</td>
-                <td className="py-2 px-4">{item.requestDate}</td>
-                <td className="py-2 px-4">{item.status}</td>
-              </tr>
-            ))}
+            {applications.map((item, index) => {
+              const formattedDate = item.requestDate
+                ? new Date(item.requestDate).toLocaleDateString("ko-KR")
+                : "";
+              return (
+                <tr
+                  key={item.id}
+                  className="cursor-pointer hover:bg-gray-50"
+                  onClick={() => handleItemClick(item)}
+                >
+                  <td className="py-2 px-4">{index + 1}</td>
+                  <td className="py-2 px-4">{item.type}</td>
+                  <td className="py-2 px-4">{formattedDate}</td>
+                  <td className="py-2 px-4">{getInstallStatusText(item.status)}</td>
+                </tr>
+              );
+            })}
             {applications.length === 0 && (
               <tr>
                 <td colSpan={4} className="py-4">
@@ -134,6 +177,13 @@ export default function ApplicationHistoryPage() {
         </form>
       </div>
       {error && <div className="text-red-500 mb-4 text-center">{error}</div>}
+      
+      {/* 비밀번호 입력 팝업 */}
+      <PasswordModal 
+        isOpen={isModalOpen} 
+        onClose={() => { setIsModalOpen(false); setSelectedItem(null); }} 
+        onSubmit={handlePasswordSubmit} 
+      />
     </div>
   );
 }
