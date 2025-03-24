@@ -94,16 +94,18 @@ export default function ApplicationHistoryPage() {
 
   const handlePasswordSubmit = (password: string) => {
     if (selectedItem) {
+      sessionStorage.setItem("password", password);
+  
       let path = "";
       switch (selectedItem.type) {
         case "견적":
-          path = `/search/install/${selectedItem.id}?password=${encodeURIComponent(password)}`;
+          path = `/search/install/${selectedItem.id}`;
           break;
         case "세척":
-          path = `/search/cleaning/${selectedItem.id}?password=${encodeURIComponent(password)}`;
+          path = `/search/cleaning/${selectedItem.id}`;
           break;
         case "A/S":
-          path = `/search/service/${selectedItem.id}?password=${encodeURIComponent(password)}`;
+          path = `/search/service/${selectedItem.id}`;
           break;
       }
       setIsModalOpen(false);
