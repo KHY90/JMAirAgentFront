@@ -6,86 +6,50 @@ import { useAddressSearch } from "@/utils/useAddressSearch";
 import CustomDateTimePicker from "@/components/CustomDateTimePicker";
 import Image from "next/image";
 
-export default function CleaningPage() {
+export default function InstallRequestPostPage() {
   const router = useRouter();
+
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const { address, searchAddress, setAddress } = useAddressSearch();
-
-  const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    detailAddress: "",
-    productType: "벽걸이형",
-    note: "",
-    reservationFirstDate: "",
-    reservationSecondDate: "",
-  });
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [detailAddress, setDetailAddress] = useState("");
+  const [requestMessage, setRequestMessage] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    if (name === "phone") {
-      const numericValue = value.replace(/[^0-9]/g, "");
-      setFormData((prev) => ({ ...prev, [name]: numericValue }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
-  };
+  const [firstDateTime, setFirstDateTime] = useState("");
+  const [secondDateTime, setSecondDateTime] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-    setSuccess("");
-
     const payload = {
-      cleanName: formData.name,
-      cleanNumber: formData.phone,
-      cleanEmail: formData.email,
-      productType: formData.productType,
-      cleanDescription: formData.note,
-      cleanAdress: address,
-      cleanDetailAdress: formData.detailAddress,
-      cleanPassword: password,
-      cleanFirstReservationTime: formData.reservationFirstDate,
-      cleanSecondReservationTime: formData.reservationSecondDate,
+      installName: name,
+      installPhone: phone,
+      installEmail: email,
+      installAddress: address,
+      installDetailAddress: detailAddress,
+      installDescription: requestMessage,
+      installPassword: password,
+      reservationFirstDate: firstDateTime,
+      reservationSecondDate: secondDateTime,
     };
 
     try {
       await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/clean/post`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/install/post`,
         payload,
         { headers: { "Content-Type": "application/json" }, withCredentials: true }
       );
-      alert("에어컨 세척 신청이 완료되었습니다. 빠른 시일 내에 연락드리겠습니다.");
-      setFormData({
-        name: "",
-        phone: "",
-        email: "",
-        detailAddress: "",
-        productType: "벽걸이형",
-        note: "",
-        reservationFirstDate: "",
-        reservationSecondDate: "",
-      });
-      setAddress("");
-      setPassword("");
-      router.push("/");
-    } catch (err: unknown) {
-      console.error("에어컨 세척 신청 오류:", err);
-      setError("에어컨 세척 신청에 실패했습니다. 다시 시도해주세요.");
+      alert("에어컨 설치 신청이 완료되었습니다!");
+      router.push("/search");
+    } catch (error) {
+      console.error("에어컨 설치 신청 오류:", error);
+      alert("에어컨 설치 신청에 실패했습니다.");
     }
   };
 
   return (
-    <div className="min-h-screen bg-white text-black flex flex-col items-center py-8 font-gowun">
-      {/* 베너 이미지 */}
-      <div className="w-full max-w-xl relative h-64 mb-6">
+    <div className="min-h-screen bg-white text-black flex flex-col items-center py-8 px-4">
+      <div className="w-full max-w-3xl relative mb-6 h-48 md:h-64 lg:h-80">
         <Image
           src="/images/character/request.webp"
           alt="견적 신청 베너"
@@ -94,47 +58,42 @@ export default function CleaningPage() {
           className="object-cover"
         />
       </div>
-
-      <h1 className="text-2xl font-bold mb-6">에어컨 세척 신청</h1>
+      <h1 className="text-2xl font-bold mb-6">에어컨 이전/설치 신청</h1>
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-xl border border-gray-300 rounded-md p-6"
+        className="w-full max-w-3xl border border-gray-300 rounded-md p-6"
       >
-        {/* 에러/성공 메시지 */}
-        {error && <div className="mb-4 text-red-500">{error}</div>}
-        {success && <div className="mb-4 text-green-500">{success}</div>}
-
         <div className="grid grid-cols-2 gap-6">
           {/* 이름 */}
           <div className="col-span-2">
-            <label className="block mb-1 font-semibold" htmlFor="name">
+            <label className="block mb-1 font-medium" htmlFor="name">
               이름
             </label>
             <input
               id="name"
               type="text"
-              name="name"
               placeholder="이름을 입력하세요"
               className="w-full border border-gray-300 rounded px-3 py-2"
-              value={formData.name}
-              onChange={handleChange}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               required
             />
           </div>
 
-          {/* 연락처 */}
+          {/* 핸드폰 */}
           <div className="col-span-2">
-            <label className="block mb-1 font-semibold" htmlFor="phone">
-              연락처
+            <label className="block mb-1 font-medium" htmlFor="phone">
+              핸드폰
             </label>
             <input
               id="phone"
-              type="tel"
-              name="phone"
+              type="text"
               placeholder="01012345678"
               className="w-full border border-gray-300 rounded px-3 py-2"
-              value={formData.phone}
-              onChange={handleChange}
+              value={phone}
+              onChange={(e) =>
+                setPhone(e.target.value.replace(/[^0-9]/g, ""))
+              }
               inputMode="numeric"
               pattern="[0-9]*"
               required
@@ -143,24 +102,23 @@ export default function CleaningPage() {
 
           {/* 이메일 */}
           <div className="col-span-2">
-            <label className="block mb-1 font-semibold" htmlFor="email">
+            <label className="block mb-1 font-medium" htmlFor="email">
               이메일
             </label>
             <input
               id="email"
               type="email"
-              name="email"
               placeholder="example@example.com"
               className="w-full border border-gray-300 rounded px-3 py-2"
-              value={formData.email}
-              onChange={handleChange}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
 
           {/* 주소 */}
           <div className="col-span-2">
-            <label className="block mb-1 font-semibold">주소</label>
+            <label className="block mb-1 font-medium">주소</label>
             <div className="flex space-x-2">
               <input
                 type="text"
@@ -184,36 +142,18 @@ export default function CleaningPage() {
               name="detailAddress"
               placeholder="상세주소"
               className="w-full mt-2 border border-gray-300 rounded px-3 py-2"
-              value={formData.detailAddress}
-              onChange={handleChange}
+              value={detailAddress}
+              onChange={(e) => setDetailAddress(e.target.value)}
               required
             />
-          </div>
-
-          {/* 제품 종류 */}
-          <div className="col-span-2">
-            <label className="block mb-1 font-semibold">제품 종류</label>
-            <select
-              name="productType"
-              value={formData.productType}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded px-3 py-2"
-            >
-              <option value="벽걸이">벽걸이</option>
-              <option value="스탠드">스탠드</option>
-              <option value="시스템">시스템</option>
-              <option value="기타">기타</option>
-            </select>
           </div>
 
           {/* 1차 희망 날짜 및 시간 */}
           <div className="col-span-2">
             <CustomDateTimePicker
               label="1차 희망 날짜 및 시간"
-              value={formData.reservationFirstDate}
-              onChange={(val) =>
-                setFormData((prev) => ({ ...prev, reservationFirstDate: val }))
-              }
+              value={firstDateTime}
+              onChange={(val) => setFirstDateTime(val)}
             />
           </div>
 
@@ -221,37 +161,36 @@ export default function CleaningPage() {
           <div className="col-span-2">
             <CustomDateTimePicker
               label="2차 희망 날짜 및 시간"
-              value={formData.reservationSecondDate}
-              onChange={(val) =>
-                setFormData((prev) => ({ ...prev, reservationSecondDate: val }))
-              }
+              value={secondDateTime}
+              onChange={(val) => setSecondDateTime(val)}
             />
           </div>
 
           {/* 요청사항 */}
           <div className="col-span-2">
-            <label className="block mb-1 font-semibold">
+            <label className="block mb-1 font-medium">
               요청사항 (최대 1000자)
             </label>
             <textarea
-              name="note"
-              placeholder="에어컨 세척 시 요청하시는 사항을 기입해주세요."
+              placeholder={`설치 관련 요청사항을 입력하세요 (최대 1000자)
+에어컨 종류 : 벽걸이형 / 스탠드형 / 투인원(벽걸이+스탠드) / 천장형 / 냉난방기 / 기타
+에어컨 배관 형태 : 노출형(배관이 밖으로 노출된 형태) / 매립형(배관이 벽 속에 묻혀있는 형태) / 모르겠음
+등등`}
               className="w-full border border-gray-300 rounded px-3 py-2 h-40 overflow-y-auto"
               maxLength={1000}
-              value={formData.note}
-              onChange={handleChange}
+              value={requestMessage}
+              onChange={(e) => setRequestMessage(e.target.value)}
             />
           </div>
 
           {/* 비밀번호 */}
           <div className="col-span-2">
-            <label className="block mb-1 font-semibold" htmlFor="password">
+            <label className="block mb-1 font-medium" htmlFor="password">
               비밀번호 (4자리 숫자)
             </label>
             <input
               id="password"
               type="password"
-              name="password"
               placeholder="비밀번호를 입력하세요"
               className="w-full border border-gray-300 rounded px-3 py-2"
               value={password}
@@ -265,10 +204,10 @@ export default function CleaningPage() {
         </div>
 
         {/* 작성하기 / 취소 버튼 */}
-        <div className="mt-6 flex space-x-4 justify-center">
+        <div className="flex space-x-4 justify-center mt-6">
           <button
             type="submit"
-            className="bg-primary text-white px-6 py-2 rounded-md hover:bg-blue-700"
+            className="w-[70%] bg-primary text-white px-4 py-2 rounded-md hover:bg-blue-800"
           >
             작성하기
           </button>
@@ -277,7 +216,7 @@ export default function CleaningPage() {
             onClick={() => {
               if (window.confirm("신청을 취소하시겠습니까?")) router.back();
             }}
-            className="bg-danger text-white px-6 py-2 rounded-md hover:bg-red-800"
+            className="w-[30%] bg-danger text-white px-4 py-2 rounded-md hover:bg-red-800"
           >
             취소
           </button>
