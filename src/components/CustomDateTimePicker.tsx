@@ -6,7 +6,7 @@ import { ko } from "date-fns/locale/ko";
 
 interface CustomDateTimePickerProps {
   label: string;
-  value: string; // ISO 문자열 형태
+  value: string;
   onChange: (value: string) => void;
 }
 
@@ -20,7 +20,6 @@ export default function CustomDateTimePicker({ label, value, onChange }: CustomD
 
   const handleConfirm = () => {
     if (selectedDate) {
-      // ISO 문자열 형태로 변환 (예: "2025-03-15T14:30:00")
       onChange(selectedDate.toISOString());
     }
     setOpen(false);

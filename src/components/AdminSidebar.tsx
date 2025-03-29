@@ -6,7 +6,7 @@ import { Menu } from "lucide-react";
 export default function AdminSidebar() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleClose = () => setIsOpen(false); // 사이드바 닫기
+  const handleClose = () => setIsOpen(false);
 
   return (
     <>
