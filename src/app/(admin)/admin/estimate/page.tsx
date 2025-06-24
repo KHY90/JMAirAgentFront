@@ -164,9 +164,7 @@ export default function AsListPage() {
                     {getInstallStatusText(item.installStatus)}
                   </td>
                   <td className="py-3 px-4">
-                    {item.registeredUserGrade === "NOUSER"
-                      ? "비회원"
-                      : "회원"}
+                    {getUserGradeText(item.registeredUserGrade)}
                   </td>
                 </tr>
               ))}

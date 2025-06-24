@@ -33,7 +33,14 @@ export default function AsListPage() {
           { withCredentials: true }
         );
 
-        const mappedData: ASItem[] = response.data.map((item: any) => ({
+        interface ServiceItem {
+          asId: number;
+          asDescription?: string;
+          asName: string;
+          asStartTime?: string;
+        }
+
+        const mappedData: ASItem[] = response.data.map((item: ServiceItem) => ({
           id: item.asId,
           title: item.asDescription || "AS 신청",
           applicant: item.asName,
