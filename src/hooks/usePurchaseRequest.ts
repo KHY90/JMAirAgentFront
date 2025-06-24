@@ -5,7 +5,18 @@ import authStore from "@/utils/authStore";
 export default function usePurchaseRequest() {
   const router = useRouter();
 
-  const sendPurchaseRequest = async (usedId: number, payload: any) => {
+  interface PurchasePayload {
+    usedName: string;
+    usedCost: string;
+    productType: string;
+    usedDescription: string;
+    usedYear: string;
+    usedTime: string;
+    usedNote: string;
+    usedState: string;
+  }
+
+  const sendPurchaseRequest = async (usedId: number, payload: PurchasePayload) => {
     if (!authStore.isAuthenticated || !authStore.user) {
       alert("로그인이 필요합니다.");
       router.push("/login");

@@ -24,7 +24,7 @@ function withAdminAuth<P extends object>(WrappedComponent: React.ComponentType<P
       } else {
         setIsChecking(false);
       }
-    }, [authStore.user, authStore.isAuthenticated, router]);
+    }, [router]);
 
     if (isChecking) {
       return (

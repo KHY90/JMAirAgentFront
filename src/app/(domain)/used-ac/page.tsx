@@ -23,7 +23,17 @@ export default function UsedAcListPage() {
     axios
       .get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/used`, { withCredentials: true })
       .then((response) => {
-        const list: UsedAcItem[] = response.data.map((item: any) => ({
+        interface UsedResponse {
+          usedId: number;
+          usedName: string;
+          usedCost: number;
+          usedTime: string;
+          usedYear: string;
+          usedImages: string[];
+          usedDescription: string;
+        }
+
+        const list: UsedAcItem[] = response.data.map((item: UsedResponse) => ({
           id: item.usedId,
           title: item.usedName,
           price: item.usedCost,

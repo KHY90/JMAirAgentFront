@@ -1,12 +1,25 @@
 import { useState } from "react";
 
+interface PostcodeData {
+  address: string;
+}
+
+interface DaumWindow extends Window {
+  daum?: {
+    Postcode: new (options: { oncomplete: (data: PostcodeData) => void }) => {
+      open: () => void;
+    };
+  };
+}
+
 export function useAddressSearch() {
   const [address, setAddress] = useState("");
 
   const searchAddress = () => {
-    if (typeof window !== "undefined" && (window as any).daum?.Postcode) {
-      new (window as any).daum.Postcode({
-        oncomplete: (data: any) => {
+    const w = window as unknown as DaumWindow;
+    if (typeof window !== "undefined" && w.daum?.Postcode) {
+      new w.daum.Postcode({
+        oncomplete: (data: PostcodeData) => {
           setAddress(data.address);
         },
       }).open();
