@@ -10,8 +10,9 @@ export interface EstimateItem {
   date: string;
 }
 
-export interface UseEstimateReturn {
-  displayedData: EstimateItem[];
+// 제네릭을 사용하여 추가 속성을 보존할 수 있도록 수정
+export interface UseEstimateReturn<T> {
+  displayedData: T[];
   totalPages: number;
   currentPage: number;
   searchTerm: string;
@@ -22,7 +23,10 @@ export interface UseEstimateReturn {
   setSortOrder: (order: SortOrder) => void;
 }
 
-export function useEstimate(data: EstimateItem[], itemsPerPage: number = 10): UseEstimateReturn {
+export function useEstimate<T extends EstimateItem>(
+  data: T[],
+  itemsPerPage: number = 10
+): UseEstimateReturn<T> {
   // 검색 상태
   const [searchTerm, setSearchTerm] = useState("");
   const [searchField, setSearchField] = useState<SearchField>("title");
@@ -50,7 +54,10 @@ export function useEstimate(data: EstimateItem[], itemsPerPage: number = 10): Us
   }, [filteredData, sortOrder]);
 
   // 총 페이지 수 계산
-  const totalPages = useMemo(() => Math.ceil(sortedData.length / itemsPerPage), [sortedData, itemsPerPage]);
+  const totalPages = useMemo(
+    () => Math.ceil(sortedData.length / itemsPerPage),
+    [sortedData, itemsPerPage]
+  );
 
   // 현재 페이지에 표시할 데이터
   const displayedData = useMemo(() => {
@@ -58,14 +65,14 @@ export function useEstimate(data: EstimateItem[], itemsPerPage: number = 10): Us
     return sortedData.slice(startIndex, startIndex + itemsPerPage);
   }, [sortedData, currentPage, itemsPerPage]);
 
-  // 검색 상태 업데이트: 검색 기준과 검색어를 변경하고, 페이지 번호 초기화
+  // 검색 상태 업데이트
   const setSearch = (field: SearchField, term: string) => {
     setSearchField(field);
     setSearchTerm(term);
     setCurrentPage(1);
   };
 
-  // 페이지 번호 업데이트 (범위 체크)
+  // 페이지 번호 업데이트
   const setPage = (page: number) => {
     if (page < 1 || page > totalPages) return;
     setCurrentPage(page);
