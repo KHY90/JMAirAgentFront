@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Image from "next/image";
 import axios from "axios";
-import { getInstallStatusText } from "@/utils/transform";
+import { getUsedStateText } from "@/utils/transform";
 
 interface UsedDTO {
   usedId: number;
@@ -109,7 +109,7 @@ export default function AdminUsedDetailPage() {
             <p>사용 기간: {detail.usedTime}</p>
             <p>연식: {detail.usedYear}</p>
             <p>종류: {detail.productType}</p>
-            <p>상태: {getInstallStatusText(detail.usedState)}</p>
+            <p>상태: {getUsedStateText(detail.usedState)}</p>
           </div>
         </div>
         <div className="mt-8 bg-gray-50 p-4 border border-gray-200 rounded">

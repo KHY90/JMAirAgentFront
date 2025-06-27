@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import SortBar from "@/components/SortBar";
 import Pagination from "@/components/Pagination";
 import MemberSearchBar from "@/components/MemberSearchBar";
-import { getInstallStatusText } from "@/utils/transform";
+import { getUsedStateText } from "@/utils/transform";
 
 interface UsedItem {
   id: number;
@@ -146,7 +146,7 @@ export default function AdminUsedListPage() {
                     {item.price.toLocaleString()}원
                   </td>
                   <td className="py-3 px-4 text-center">
-                    {getInstallStatusText(item.state)}
+                    {getUsedStateText(item.state)}
                   </td>
                   <td className="py-3 px-4 text-center">
                     {new Date(item.postTime).toLocaleDateString("ko-KR")}
