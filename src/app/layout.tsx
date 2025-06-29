@@ -4,6 +4,7 @@ import AuthUpdater from "../components/AuthUpdater";
 import Header from "./(common)/header";
 import Footer from "./(common)/footer";
 import Script from "next/script";
+import Chatbot from "../components/ChatBotWidget";
 
 export const metadata: Metadata = {
   title: "진명에어컨",
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main className="flex-1 w-full">{children}</main>
         <Footer />
+        <Chatbot />
       </body>
     </html>
   );
