@@ -81,9 +81,9 @@ export default function CleaningPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-black flex flex-col items-center py-8 font-gowun">
+    <div className="min-h-screen bg-white text-black flex flex-col items-center py-8 px-4 font-gowun">
       {/* 베너 이미지 */}
-      <div className="w-full max-w-xl relative h-64 mb-6">
+      <div className="w-full max-w-3xl relative h-64 mb-6">
         <Image
           src="/images/character/cleanbanner.webp"
           alt="청소 베너"
@@ -95,7 +95,7 @@ export default function CleaningPage() {
       <h1 className="text-2xl font-bold mb-6">에어컨 세척 신청</h1>
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-xl border border-gray-300 rounded-md p-6"
+        className="w-full max-w-3xl border border-gray-300 rounded-md p-6"
       >
         {/* 에러/성공 메시지 */}
         {error && <div className="mb-4 text-red-500">{error}</div>}

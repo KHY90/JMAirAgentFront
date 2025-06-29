@@ -58,6 +58,15 @@ export default function UsedAcListPage() {
     <div className="min-h-screen bg-white text-black p-6 font-gowun">
       <h1 className="text-2xl font-bold mb-6">중고 에어컨 목록</h1>
       {error && <div className="mb-4 text-red-500">{error}</div>}
+
+      {/* 등록 상품이 없는 경우 */}
+      {!error && usedAcList.length === 0 && (
+        <div className="text-center text-gray-600 mt-8 text-lg">
+          현재 등록된 상품이 없습니다.
+        </div>
+      )}
+
+      {/* 상품 목록 */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {usedAcList.map((item) => (
           <div
