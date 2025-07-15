@@ -117,6 +117,7 @@ export default function ApplicationHistoryPage() {
   return (
     <div className="container mx-auto p-6 font-gowun">
       <h1 className="text-2xl font-bold mb-4 text-center">신청 내역 조회</h1>
+      <p className="text-center mb-6">이름과 핸드폰 번호를 입력하여 신청 내역을 조회하세요.</p>
       <div className="overflow-x-auto">
         <table className="w-full border border-gray-300 rounded min-w-[320px]">
           <thead className="bg-gray-100">

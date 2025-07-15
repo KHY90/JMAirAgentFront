@@ -71,7 +71,7 @@ export default function ChatBotWidget() {
           {/* 메시지 영역 */}
           <div className="flex-1 p-3 overflow-y-auto">
             {chat.length === 0 ? (
-              <p className="text-center text-gray-500 mt-20">대화를 시작해보세요!</p>
+              <p className="text-center text-gray-500 mt-20">에어컨 설치, A/S, 중고에어컨 구매 등 궁금한 것을 물어보세요!</p>
             ) : (
               chat.map((m, i) => (
                 <div
