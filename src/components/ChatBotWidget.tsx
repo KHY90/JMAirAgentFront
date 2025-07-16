@@ -62,7 +62,7 @@ export default function ChatBotWidget() {
         <div className="fixed bottom-20 right-4 w-80 h-96 bg-white border border-gray-200 rounded-lg shadow-lg flex flex-col">
           {/* 헤더 */}
           <div className="flex items-center justify-between bg-blue-600 text-white px-4 py-2 rounded-t-lg">
-            <h2 className="text-lg font-semibold">진명에어컨 챗봇</h2>
+            <h2 className="text-lg font-semibold">진명에어컨 에이전트 챗봇</h2>
             <button onClick={toggleOpen} aria-label="닫기">
               <FiX size={20} />
             </button>

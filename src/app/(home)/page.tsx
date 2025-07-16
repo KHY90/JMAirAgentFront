@@ -18,7 +18,7 @@ export default function HomePage() {
 
       {/* 본문 콘텐츠 */}
       <div className="container mx-auto p-6 text-center">
-        <h1 className="text-2xl font-bold">에어컨 서비스</h1>
+        <h1 className="text-2xl font-bold">진명에어컨 에이전트</h1>
         <p>최고의 에어컨 설치 및 관리 서비스를 제공합니다.</p>
         <div>
 

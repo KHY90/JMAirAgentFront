@@ -58,7 +58,7 @@ const Header = observer(() => {
 
       <div className="px-6 py-4 flex justify-between items-center">
         <Link href="/">
-          <span className="font-bold text-2xl">진명에어컨</span>
+          <span className="font-bold text-2xl">진명에어컨 에이전트</span>
         </Link>
         <nav className="hidden md:flex space-x-4">
           <Link href="/about" className="hover:text-blue-500 text-base">

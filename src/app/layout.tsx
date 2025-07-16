@@ -7,8 +7,8 @@ import Script from "next/script";
 import Chatbot from "../components/ChatBotWidget";
 
 export const metadata: Metadata = {
-  title: "진명에어컨",
-  description: "진명에어컨 홈페이지",
+  title: "진명에어컨 에이전트",
+  description: "진명에어컨 에이전트 홈페이지",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

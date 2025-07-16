@@ -1,12 +1,12 @@
 "use client";
 import { useDeleteAccount } from "@/hooks/useDeleteAcoount";
 
-export default function MyPage() {
+export default function MyPageUser() {
   const { deleteAccount, errorMessage, isLoading } = useDeleteAccount();
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">마이페이지</h2>
+      <h2 className="text-2xl font-bold mb-4">나의 정보</h2>
 
       <button
         onClick={deleteAccount}
