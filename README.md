@@ -1,4 +1,4 @@
-# JMAir Front-End Project
+# JMAirAgent Front-End Project
 
 ## 📜 프로젝트 소개
 
@@ -51,8 +51,8 @@ JMAirFront/
 ### 1. 저장소 복제
 
 ```bash
-git clone <repository-url>
-cd JMAirFront
+git clone https://github.com/KHY90/JMAirAgentFront.git
+cd JMAirAgentFront
 ```
 
 ### 2. 의존성 설치
