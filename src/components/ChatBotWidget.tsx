@@ -33,9 +33,12 @@ export default function ChatBotWidget() {
     setInput("");
 
     try {
-      const res = await fetch(`${API_BASE}/chat`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch(`${API_BASE}/ask`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": process.env.NEXT_PUBLIC_CHATBOT_API_KEY || "",
+        },
         body: JSON.stringify({ message: text }),
       });
       const data: { response: string } = await res.json();
