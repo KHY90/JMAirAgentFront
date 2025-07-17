@@ -34,7 +34,7 @@ export default function ChatBotWidget() {
 
     try {
       const res = await fetch(`${API_BASE}/ask`, {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           "x-api-key": process.env.NEXT_PUBLIC_CHATBOT_API_KEY || "",
