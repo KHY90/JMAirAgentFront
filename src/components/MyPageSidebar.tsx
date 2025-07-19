@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const sidebarLinks = [
-  { name: '나의 정보', href: '/mypage/user' },
+  { name: '나의 정보', href: '/mypage' },
   { name: '신청 내역', href: '/mypage/requests' },
   { name: '설치기사 신청', href: '/mypage/engineer' },
 ];

@@ -2,11 +2,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import authStore from "@/utils/authStore";
-
-interface EngineerStatus {
-  status: string;
-  appliedAt?: string;
-}
+import { EngineerStatus } from "@/types/mypage";
 
 export default function MyPageEngineerApply() {
   const [info, setInfo] = useState<EngineerStatus | null>(null);
