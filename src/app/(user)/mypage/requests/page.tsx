@@ -4,13 +4,7 @@ import axios from "axios";
 import authStore from "@/utils/authStore";
 import { getInstallStatusText } from "@/utils/transform";
 import { InstallRequest, ServiceRequest, CleanRequest } from "@/types/requests";
-
-interface RequestItem {
-  id: number;
-  type: string;
-  date: string;
-  status: string;
-}
+import { RequestItem } from "@/types/mypage";
 
 export default function MyPageRequests() {
   const [items, setItems] = useState<RequestItem[]>([]);
