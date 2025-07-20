@@ -17,9 +17,15 @@ export default function MyPageRequests() {
     setError("");
     try {
       const [installRes, serviceRes, cleanRes] = await Promise.all([
-        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/install/my`, { withCredentials: true }),
-        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/service/my`, { withCredentials: true }),
-        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/clean/my`, { withCredentials: true }),
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/install/my`, {
+          withCredentials: true,
+        }),
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/service/my`, {
+          withCredentials: true,
+        }),
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/clean/my`, {
+          withCredentials: true,
+        }),
       ]);
 
       const installItems = installRes.data.map((it: InstallRequest) => ({
@@ -44,7 +50,6 @@ export default function MyPageRequests() {
       setItems([...installItems, ...serviceItems, ...cleanItems]);
     } catch (err) {
       console.error("신청 목록 조회 오류:", err);
-      console.error(error);
       setError("신청 내역을 불러오지 못했습니다.");
     } finally {
       setLoading(false);
@@ -58,6 +63,9 @@ export default function MyPageRequests() {
   return (
     <div className="p-6 space-y-4">
       <h2 className="text-2xl font-bold">신청 내역</h2>
+      {error && (
+        <div className="text-red-500 bg-red-100 p-2 rounded">{error}</div>
+      )}
       <div className="overflow-x-auto">
         <table className="w-full border border-gray-300 rounded min-w-[520px] text-center">
           <thead className="bg-gray-100">
@@ -74,14 +82,20 @@ export default function MyPageRequests() {
                 <td className="py-2 px-4">{idx + 1}</td>
                 <td className="py-2 px-4">{item.type}</td>
                 <td className="py-2 px-4">
-                  {item.date ? new Date(item.date).toLocaleDateString("ko-KR") : ""}
+                  {item.date
+                    ? new Date(item.date).toLocaleDateString("ko-KR")
+                    : ""}
                 </td>
-                <td className="py-2 px-4">{getInstallStatusText(item.status)}</td>
+                <td className="py-2 px-4">
+                  {getInstallStatusText(item.status)}
+                </td>
               </tr>
             ))}
             {items.length === 0 && !loading && (
               <tr>
-                <td colSpan={4} className="py-3">신청 내역이 없습니다.</td>
+                <td colSpan={4} className="py-3">
+                  신청 내역이 없습니다.
+                </td>
               </tr>
             )}
           </tbody>
