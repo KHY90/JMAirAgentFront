@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import authStore from "@/utils/authStore";
 import { EngineerStatus } from "@/types/mypage";
@@ -10,7 +10,7 @@ export default function MyPageEngineerApply() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const fetchStatus = async () => {
+  const fetchStatus = useCallback(async () => {
     if (!authStore.isAuthenticated) return;
     try {
       const res = await axios.get(
@@ -23,7 +23,7 @@ export default function MyPageEngineerApply() {
       setError("상태를 불러오지 못했습니다.");
       console.error(error);
     }
-  };
+  }, []);
 
   const handleApply = async () => {
     if (!authStore.isAuthenticated) {
@@ -49,7 +49,7 @@ export default function MyPageEngineerApply() {
 
   useEffect(() => {
     fetchStatus();
-  }, []);
+  }, [fetchStatus]);
 
   const formattedDate = info?.appliedAt
     ? new Date(info.appliedAt).toLocaleDateString("ko-KR")
