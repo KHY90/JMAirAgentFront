@@ -5,6 +5,7 @@ import {
   ServiceResponse,
   CleanResponse,
 } from '@/types/response';
+import { MemberResponse, NoticeResponse } from '@/types/admin';
 
 export interface EstimateItem {
   id: number;
@@ -86,7 +87,7 @@ const fetchMembers = async (): Promise<MemberItem[]> => {
     `${process.env.NEXT_PUBLIC_API_URL}/api/v1/user/all`,
     { withCredentials: true }
   );
-  return res.data.map((it: any) => ({
+  return res.data.map((it: MemberResponse) => ({
     id: it.userLogin,
     userName: it.userName,
     email: it.email,
@@ -99,7 +100,7 @@ const fetchNotices = async (): Promise<NoticeItem[]> => {
     `${process.env.NEXT_PUBLIC_API_URL}/api/v1/notices`,
     { withCredentials: true }
   );
-  return res.data.map((it: any) => ({
+  return res.data.map((it: NoticeResponse) => ({
     id: it.id,
     title: it.title,
     date: it.postTime,
