@@ -65,7 +65,7 @@ export default function EstimateDetailAdminPage() {
   }, [id]);
 
   const handleEdit = () => {
-    router.push(`/admin/estimate/${id}/edit`);
+    router.push(`/admin/as/${id}/edit`);
   };
   const handleDelete = () => {
     alert("삭제 기능 (예시)");
