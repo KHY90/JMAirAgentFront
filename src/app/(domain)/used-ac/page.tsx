@@ -55,7 +55,7 @@ export default function UsedAcListPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-black p-6 font-gowun">
+    <div className="min-h-screen bg-white text-black border-t-4 border-sky-600 p-6 font-gowun">
       <h1 className="text-2xl font-bold mb-6">중고 에어컨 목록</h1>
       {error && <div className="mb-4 text-red-500">{error}</div>}
 
