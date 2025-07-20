@@ -44,7 +44,6 @@ export default function MyPageRequests() {
       setItems([...installItems, ...serviceItems, ...cleanItems]);
     } catch (err) {
       console.error("신청 목록 조회 오류:", err);
-      console.error(error);
       setError("신청 내역을 불러오지 못했습니다.");
     } finally {
       setLoading(false);
@@ -58,6 +57,11 @@ export default function MyPageRequests() {
   return (
     <div className="p-6 space-y-4">
       <h2 className="text-2xl font-bold">신청 내역</h2>
+      {error && (
+        <div className="text-red-500 bg-red-50 border border-red-200 rounded p-2 mb-2">
+          {error}
+        </div>
+      )}
       <div className="overflow-x-auto">
         <table className="w-full border border-gray-300 rounded min-w-[520px] text-center">
           <thead className="bg-gray-100">

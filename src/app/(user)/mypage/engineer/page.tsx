@@ -21,7 +21,6 @@ export default function MyPageEngineerApply() {
     } catch (err) {
       console.error("설치기사 상태 조회 오류:", err);
       setError("상태를 불러오지 못했습니다.");
-      console.error(error);
     }
   }, []);
 
@@ -58,6 +57,11 @@ export default function MyPageEngineerApply() {
   return (
     <div className="p-6 space-y-4">
       <h2 className="text-2xl font-bold">설치기사 신청</h2>
+      {error && (
+        <div className="text-red-500 bg-red-50 border border-red-200 rounded p-2 mb-2">
+          {error}
+        </div>
+      )}
       <div className="overflow-x-auto">
         <table className="w-full border border-gray-300 rounded min-w-[320px] text-center">
           <thead className="bg-gray-100">
@@ -74,7 +78,9 @@ export default function MyPageEngineerApply() {
               </tr>
             ) : (
               <tr>
-                <td colSpan={2} className="py-3">신청 내역이 없습니다.</td>
+                <td colSpan={2} className="py-3">
+                  신청 내역이 없습니다.
+                </td>
               </tr>
             )}
           </tbody>
