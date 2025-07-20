@@ -2,7 +2,6 @@
 import { useDeleteAccount } from "@/hooks/useDeleteAcoount";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
 import { UserInfo } from "@/types/mypage";
 
 export default function MyPageInfo() {
@@ -14,7 +13,7 @@ export default function MyPageInfo() {
     const fetchInfo = async () => {
       try {
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/user/current`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/user/${info?.userLogin}`,
           { withCredentials: true }
         );
         setInfo(res.data.user);

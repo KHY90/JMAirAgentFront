@@ -44,6 +44,7 @@ export default function MyPageRequests() {
       setItems([...installItems, ...serviceItems, ...cleanItems]);
     } catch (err) {
       console.error("신청 목록 조회 오류:", err);
+      console.error(error);
       setError("신청 내역을 불러오지 못했습니다.");
     } finally {
       setLoading(false);
@@ -86,7 +87,6 @@ export default function MyPageRequests() {
           </tbody>
         </table>
       </div>
-      {error && <p className="text-red-500">{error}</p>}
     </div>
   );
 }

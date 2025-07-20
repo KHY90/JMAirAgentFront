@@ -80,7 +80,7 @@ export default function JoinPage() {
             <button
               type="button"
               onClick={handleCheckUserLogin}
-              className="bg-gray-500 text-white px-3 py-2 rounded-md hover:bg-gray-600"
+              className="bg-red-500 min-w-[30%] text-white px-3 py-2 rounded-md hover:bg-red-600"
             >
               중복 확인
             </button>

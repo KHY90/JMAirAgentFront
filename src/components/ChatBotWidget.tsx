@@ -1,55 +1,18 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { FiMessageCircle, FiX } from "react-icons/fi";
-
-// 챗 메시지 인터페이스 정의
-interface ChatMessage {
-  who: "me" | "bot";
-  text: string;
-}
-
-// 코랩 쳇봇 API URL
-const API_BASE: string = process.env.NEXT_PUBLIC_API_BASE ?? "";
+import { useChatbot } from "@/hooks/useChatbot";
 
 export default function ChatBotWidget() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [input, setInput] = useState<string>("");
-  const [chat, setChat] = useState<ChatMessage[]>([]);
+  const { chat, input, setInput, sendMessage } = useChatbot();
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const toggleOpen = () => setIsOpen((prev) => !prev);
 
-  // 새 메시지가 추가되면 스크롤 이동
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chat, isOpen]);
-
-  const sendMessage = async () => {
-    const text = input.trim();
-    if (!text) return;
-
-    // 사용자 메시지 추가
-    setChat((prev) => [...prev, { who: "me", text }]);
-    setInput("");
-
-    try {
-      const res = await fetch(`${API_BASE}/ask`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": process.env.NEXT_PUBLIC_CHATBOT_API_KEY || "",
-        },
-        body: JSON.stringify({ message: text }),
-      });
-      const data: { response: string } = await res.json();
-
-      // 봇 응답 추가
-      setChat((prev) => [...prev, { who: "bot", text: data.response }]);
-    } catch (error) {
-      console.error("Chat API error", error);
-      setChat((prev) => [...prev, { who: "bot", text: "죄송합니다. 오류가 발생했어요." }]);
-    }
-  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {

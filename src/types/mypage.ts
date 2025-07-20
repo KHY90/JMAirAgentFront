@@ -1,8 +1,11 @@
 export interface UserInfo {
   userLogin: string;
   userName: string;
-  phoneNumber?: string;
   email?: string;
+  phoneNumber?: string;
+  joinDate: string;
+  userGrade: string;
+  status: boolean;
 }
 
 export interface EngineerStatus {

@@ -20,6 +20,7 @@ export default function MyPageEngineerApply() {
     } catch (err) {
       console.error("설치기사 상태 조회 오류:", err);
       setError("상태를 불러오지 못했습니다.");
+      console.error(error);
     }
   };
 
@@ -87,7 +88,6 @@ export default function MyPageEngineerApply() {
           {loading ? "신청 중..." : "설치기사로 신청하기"}
         </button>
       </div>
-      {error && <p className="text-red-500">{error}</p>}
     </div>
   );
 }
