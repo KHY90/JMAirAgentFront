@@ -81,6 +81,31 @@ npm run build
 npm run start
 ```
 
+### 5. 환경 변수 설정
+
+서비스 실행을 위해 다음 환경 변수를 `.env.local` 파일에 정의합니다.
+
+```env
+NEXT_PUBLIC_API_URL=<백엔드 API 기본 경로>
+NEXT_PUBLIC_API_BASE=<챗봇 API 기본 경로>
+NEXT_PUBLIC_KAKAO_CLIENT_ID=<카카오 OAuth 클라이언트 ID>
+NEXT_PUBLIC_KAKAO_REDIRECT_URI=<카카오 OAuth 리다이렉트 URI>
+NEXT_PUBLIC_KAKAO_URI=<카카오 OAuth 인증 URL>
+NEXT_PUBLIC_NAVER_CLIENT_ID=<네이버 OAuth 클라이언트 ID>
+NEXT_PUBLIC_NAVER_REDIRECT_URI=<네이버 OAuth 리다이렉트 URI>
+NEXT_PUBLIC_NAVER_URI=<네이버 OAuth 인증 URL>
+NEXT_PUBLIC_CHATBOT_API_KEY=<챗봇 API 키>
+JWT_SECRET=<JWT 서명 시크릿>
+```
+
+### 6. 코드 검사
+
+코드 스타일 검사를 위해 다음 명령을 실행할 수 있습니다.
+
+```bash
+npm run lint
+```
+
 ## 📄 라이선스
 
 본 프로젝트는 [LICENSE](LICENSE) 파일에 명시된 라이선스를 따릅니다.
