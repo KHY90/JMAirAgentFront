@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./styles/globals.css";
 import AuthUpdater from "../components/AuthUpdater";
+import ReactQueryProvider from "../components/ReactQueryProvider";
 import Header from "./(common)/header";
 import Footer from "./(common)/footer";
 import Script from "next/script";
@@ -38,11 +39,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="flex flex-col min-h-screen">
-        <AuthUpdater />
-        <Header />
-        <main className="flex-1 w-full">{children}</main>
-        <Footer />
-        <Chatbot />
+        <ReactQueryProvider>
+          <AuthUpdater />
+          <Header />
+          <main className="flex-1 w-full">{children}</main>
+          <Footer />
+          <Chatbot />
+        </ReactQueryProvider>
       </body>
     </html>
   );

@@ -1,22 +1,24 @@
 "use client";
 import React from "react";
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import { useAdminDashboard } from "@/hooks/useAdminDashboard";
 
 export default function AdminPage() {
-  // 임시 데이터
-  const estimateData = [
-    { id: 1, date: "2024-02-20", title: "가정집 에어컨 이전 설치 문의", status: "대기" },
-    { id: 2, date: "2024-02-18", title: "사무실 에어컨 설치", status: "완료" },
-  ];
+  const { data, isLoading } = useAdminDashboard();
+  const estimateData = data?.estimates ?? [];
+  const memberData = data?.members ?? [];
+  const noticeData = data?.notices ?? [];
+  const memberStats = data?.memberStats ?? [];
+  const noticeStats = data?.noticeStats ?? [];
 
-  const memberData = [
-    { id: 1, userName: "홍길동", email: "hong@example.com", joined: "2024-01-15" },
-    { id: 2, userName: "김철수", email: "chul@example.com", joined: "2024-02-10" },
-  ];
-
-  const noticeData = [
-    { id: 1, title: "공지사항 테스트", date: "2024-02-10", views: 120 },
-    { id: 2, title: "새로운 이벤트 안내", date: "2024-02-09", views: 45 },
-  ];
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex bg-gray-100">
@@ -41,17 +43,25 @@ export default function AdminPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {estimateData.map((item) => (
-                    <tr key={item.id} className="border-b hover:bg-gray-50">
-                      <td className="py-2 px-2 text-sm">{item.date}</td>
-                      <td className="py-2 px-2 text-sm">{item.title}</td>
-                      <td className="py-2 px-2 text-sm">{item.status}</td>
-                      <td className="py-2 px-2">
-                        <button className="text-blue-500 mr-2">수정</button>
-                        <button className="text-red-500">삭제</button>
+                  {estimateData.length > 0 ? (
+                    estimateData.map((item) => (
+                      <tr key={item.id} className="border-b hover:bg-gray-50">
+                        <td className="py-2 px-2 text-sm">{item.date}</td>
+                        <td className="py-2 px-2 text-sm">{item.title}</td>
+                        <td className="py-2 px-2 text-sm">{item.status}</td>
+                        <td className="py-2 px-2">
+                          <button className="text-blue-500 mr-2">수정</button>
+                          <button className="text-red-500">삭제</button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={4} className="py-4 text-center text-gray-500">
+                        데이터가 없습니다.
                       </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>
@@ -71,17 +81,25 @@ export default function AdminPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {memberData.map((item) => (
-                    <tr key={item.id} className="border-b hover:bg-gray-50">
-                      <td className="py-2 px-2 text-sm">{item.userName}</td>
-                      <td className="py-2 px-2 text-sm">{item.email}</td>
-                      <td className="py-2 px-2 text-sm">{item.joined}</td>
-                      <td className="py-2 px-2">
-                        <button className="text-blue-500 mr-2">수정</button>
-                        <button className="text-red-500">삭제</button>
+                  {memberData.length > 0 ? (
+                    memberData.map((item) => (
+                      <tr key={item.id} className="border-b hover:bg-gray-50">
+                        <td className="py-2 px-2 text-sm">{item.userName}</td>
+                        <td className="py-2 px-2 text-sm">{item.email}</td>
+                        <td className="py-2 px-2 text-sm">{item.joined}</td>
+                        <td className="py-2 px-2">
+                          <button className="text-blue-500 mr-2">수정</button>
+                          <button className="text-red-500">삭제</button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={4} className="py-4 text-center text-gray-500">
+                        데이터가 없습니다.
                       </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>
@@ -101,17 +119,25 @@ export default function AdminPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {noticeData.map((notice) => (
-                    <tr key={notice.id} className="border-b hover:bg-gray-50">
-                      <td className="py-2 px-2 text-sm">{notice.title}</td>
-                      <td className="py-2 px-2 text-sm">{notice.date}</td>
-                      <td className="py-2 px-2 text-sm">{notice.views}</td>
-                      <td className="py-2 px-2">
-                        <button className="text-blue-500 mr-2">수정</button>
-                        <button className="text-red-500">삭제</button>
+                  {noticeData.length > 0 ? (
+                    noticeData.map((notice) => (
+                      <tr key={notice.id} className="border-b hover:bg-gray-50">
+                        <td className="py-2 px-2 text-sm">{notice.title}</td>
+                        <td className="py-2 px-2 text-sm">{notice.date}</td>
+                        <td className="py-2 px-2 text-sm">{notice.views}</td>
+                        <td className="py-2 px-2">
+                          <button className="text-blue-500 mr-2">수정</button>
+                          <button className="text-red-500">삭제</button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={4} className="py-4 text-center text-gray-500">
+                        데이터가 없습니다.
                       </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>
@@ -120,22 +146,30 @@ export default function AdminPage() {
           {/* 통계 카드 */}
           <div className="bg-white rounded shadow p-4">
             <h2 className="text-xl font-semibold mb-3">통계</h2>
-            <div className="grid grid-cols-2 gap-4 text-center">
-              <div className="border rounded p-2">
-                <p className="text-sm text-gray-500">견적신청 수</p>
-                <p className="text-xl font-bold">127명</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="h-60">
+                <p className="text-center mb-2 font-semibold">회원 통계</p>
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={memberStats}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis allowDecimals={false} />
+                    <Tooltip />
+                    <Bar dataKey="count" fill="#3182ce" />
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
-              <div className="border rounded p-2">
-                <p className="text-sm text-gray-500">공지사항 수</p>
-                <p className="text-xl font-bold">45건</p>
-              </div>
-              <div className="border rounded p-2">
-                <p className="text-sm text-gray-500">회원 수</p>
-                <p className="text-xl font-bold">128명</p>
-              </div>
-              <div className="border rounded p-2">
-                <p className="text-sm text-gray-500">기타</p>
-                <p className="text-xl font-bold">12명</p>
+              <div className="h-60">
+                <p className="text-center mb-2 font-semibold">게시글 통계</p>
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={noticeStats}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis allowDecimals={false} />
+                    <Tooltip />
+                    <Bar dataKey="count" fill="#38a169" />
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
             </div>
           </div>
