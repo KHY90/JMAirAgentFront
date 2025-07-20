@@ -8,7 +8,6 @@ export interface InstallResponse {
   }
   
   export interface CleanResponse {
-    cleanStartTime: string;
     cleanId: number;
     cleanDescription: string;
     cleanName: string;
