@@ -33,7 +33,7 @@ export default function AboutSectionOne() {
           >
             정직과 신뢰,
             <br />
-            JMAir의 약속
+            진명에어컨 에이전트의 약속
           </h2>
           <p
             className={`text-lg text-gray-600 max-w-md transition-all duration-1000 delay-400 ${

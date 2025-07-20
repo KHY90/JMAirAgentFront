@@ -22,7 +22,7 @@ export default function AboutSectionTwo() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
-          왜 JMAir를 선택해야 할까요?
+          왜 저희를 선택해야 할까요?
         </h2>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full max-w-6xl">
