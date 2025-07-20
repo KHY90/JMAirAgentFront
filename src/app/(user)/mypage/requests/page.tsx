@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import authStore from "@/utils/authStore";
 import { getInstallStatusText } from "@/utils/transform";
@@ -11,7 +11,7 @@ export default function MyPageRequests() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     if (!authStore.isAuthenticated) return;
     setLoading(true);
     setError("");
@@ -49,11 +49,11 @@ export default function MyPageRequests() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   return (
     <div className="p-6 space-y-4">
