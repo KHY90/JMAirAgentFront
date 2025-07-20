@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import axios from 'axios';
 
 export interface EstimateItem {
@@ -36,7 +36,7 @@ export interface DashboardData {
 }
 
 const fetchDashboard = async (): Promise<DashboardData> => {
-  const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/admin/dashboard`, {
+  const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/admin/`, {
     withCredentials: true,
   });
   return res.data;
@@ -47,4 +47,5 @@ export const useAdminDashboard = () =>
     queryKey: ['adminDashboard'],
     queryFn: fetchDashboard,
     refetchInterval: 5 * 60 * 1000,
+    placeholderData: keepPreviousData,
   });
