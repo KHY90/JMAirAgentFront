@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import authStore from "@/utils/authStore";
 import { EngineerStatus } from "@/types/mypage";
+import { getGradeText } from "@/utils/transform";
 
 export default function MyPageEngineerApply() {
   const [info, setInfo] = useState<EngineerStatus | null>(null);
@@ -68,7 +69,7 @@ export default function MyPageEngineerApply() {
           <tbody>
             {info ? (
               <tr>
-                <td className="py-2 px-4">{info.status}</td>
+                <td className="py-2 px-4">{getGradeText(info.status)}</td>
                 <td className="py-2 px-4">{formattedDate}</td>
               </tr>
             ) : (

@@ -6,6 +6,7 @@ import axios from "axios";
 import useImageModal from "@/hooks/useImageModal";
 import ImageModal from "@/components/ImageModal";
 import usePurchaseRequest from "@/hooks/usePurchaseRequest";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 interface UsedDTO {
   usedId: number;
@@ -71,7 +72,7 @@ export default function UsedAcDetailPage() {
     return <div className="min-h-screen bg-white text-black p-6">{error}</div>;
   }
   if (!detailData) {
-    return <div className="min-h-screen bg-white text-black p-6">로딩중...</div>;
+    return <LoadingSpinner />;
   }
 
   const mainImage =

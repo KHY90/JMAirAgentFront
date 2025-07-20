@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import { getInstallStatusText } from "@/utils/transform";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 interface CleaningDetailDTO {
   cleanId: number;
@@ -94,7 +95,7 @@ export default function CleaningDetailPage() {
   };
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center bg-white">로딩 중...</div>;
+    return <LoadingSpinner />;
   }
 
   if (error) {

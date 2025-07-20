@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 interface InstallEditDTO {
   installId: number;
@@ -98,9 +99,7 @@ export default function EstimateEditAdminPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
-        <p>로딩 중...</p>
-      </div>
+      <LoadingSpinner />
     );
   }
 

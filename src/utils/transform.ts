@@ -29,6 +29,8 @@ export function getGradeText(grade: string): string {
       return "임시 관리자";
     case "ENGINEER":
       return "설치 기사";
+    case "WAITING":
+      return "대기중";
     case "USER":
       return "회원";
     case "NOUSER":

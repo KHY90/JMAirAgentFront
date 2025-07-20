@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import { getInstallStatusText, getUserGradeText } from "@/utils/transform";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 interface InstallDTO {
   installId: number;
@@ -85,9 +86,7 @@ export default function EstimateDetailAdminPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
-        <p>로딩 중...</p>
-      </div>
+      <LoadingSpinner />
     );
   }
 

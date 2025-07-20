@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
 import axios from "axios";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function InstallEditPage() {
   const { id } = useParams();
@@ -74,7 +75,7 @@ export default function InstallEditPage() {
     }
   };
 
-  if (loading) return <p className="p-4">로딩 중...</p>;
+  if (loading) return <LoadingSpinner />;
   if (error) return <p className="p-4 text-red-500">{error}</p>;
 
   return (

@@ -3,6 +3,9 @@ import { useDeleteAccount } from "@/hooks/useDeleteAcoount";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { UserInfo } from "@/types/mypage";
+import authStore from "@/utils/authStore";
+import { getGradeText } from "@/utils/transform";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function MyPageInfo() {
   const { deleteAccount, errorMessage, isLoading } = useDeleteAccount();
@@ -11,12 +14,13 @@ export default function MyPageInfo() {
 
   useEffect(() => {
     const fetchInfo = async () => {
+      if (!authStore.user?.userLogin) return;
       try {
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/user/${info?.userLogin}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/user/${authStore.user.userLogin}`,
           { withCredentials: true }
         );
-        setInfo(res.data.user);
+        setInfo(res.data);
       } catch (err) {
         console.error("사용자 정보 조회 오류:", err);
         setLoadError("사용자 정보를 불러오지 못했습니다.");
@@ -48,10 +52,16 @@ export default function MyPageInfo() {
                 <th className="py-2 px-4 w-32 bg-gray-100 text-left">이메일</th>
                 <td className="py-2 px-4">{info.email || "-"}</td>
               </tr>
+              <tr>
+                <th className="py-2 px-4 w-32 bg-gray-100 text-left">등급</th>
+                <td className="py-2 px-4">{getGradeText(info.userGrade)}</td>
+              </tr>
             </tbody>
           </table>
+        ) : loadError ? (
+          <p className="text-red-500">{loadError}</p>
         ) : (
-          <p>정보를 불러오는 중...</p>
+          <LoadingSpinner className="py-8" />
         )}
       </div>
       <button
@@ -63,7 +73,6 @@ export default function MyPageInfo() {
       </button>
 
       {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
-      {loadError && <p className="text-red-500">{loadError}</p>}
     </div>
   );
 }

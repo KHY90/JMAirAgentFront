@@ -6,6 +6,7 @@ import SortBar from "@/components/SortBar";
 import Pagination from "@/components/Pagination";
 import MemberSearchBar from "@/components/MemberSearchBar";
 import { getUsedStateText } from "@/utils/transform";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 interface UsedItem {
   id: number;
@@ -91,9 +92,7 @@ export default function AdminUsedListPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
-        로딩중...
-      </div>
+      <LoadingSpinner />
     );
   }
 

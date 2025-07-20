@@ -2,6 +2,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 interface NoticeDetail {
   id: number;
@@ -67,7 +68,7 @@ export default function AdminNoticeDetailPage() {
   }
 
   if (!notice) {
-    return <div className="font-gowun text-black p-4">로딩중...</div>;
+    return <LoadingSpinner />;
   }
 
   return (

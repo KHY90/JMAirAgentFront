@@ -7,6 +7,7 @@ import Pagination from "@/components/Pagination";
 import MemberSearchBar from "@/components/MemberSearchBar";
 import { MemberFilterBar } from "@/components/MemberFilterBar";
 import { getGradeText } from "@/utils/transform";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 interface Member {
   userLogin: string;
@@ -89,7 +90,7 @@ export default function MemberListPage() {
   }, [filteredMembers, currentPage]);
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center bg-white">로딩 중...</div>;
+    return <LoadingSpinner />;
   }
 
   if (error) {

@@ -8,6 +8,7 @@ import FilterSelect from "../../../../components/FilterSelect";
 import { useEstimate, EstimateItem } from "../../../../hooks/useEstimate";
 import { useRouter } from "next/navigation";
 import { getInstallStatusText, getUserGradeText } from "@/utils/transform";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 export interface ASItemExtended extends EstimateItem {
   installStatus: string;
@@ -104,9 +105,7 @@ export default function AsListPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-white text-black flex items-center justify-center">
-        <p>{error}</p>
-      </div>
+      <LoadingSpinner />
     );
   }
 

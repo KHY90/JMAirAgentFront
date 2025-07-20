@@ -6,6 +6,7 @@ import Pagination from "../../../../components/Pagination";
 import SortBar from "../../../../components/SortBar";
 import { useEstimate } from "../../../../hooks/useEstimate";
 import { useRouter } from "next/navigation";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 export interface ASItem {
   id: number;         
@@ -75,9 +76,7 @@ export default function AsListPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white text-black flex items-center justify-center">
-        <p>로딩 중...</p>
-      </div>
+      <LoadingSpinner />
     );
   }
 

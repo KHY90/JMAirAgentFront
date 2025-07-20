@@ -4,6 +4,7 @@ import { useRouter, useParams } from "next/navigation";
 import Image from "next/image";
 import axios from "axios";
 import { getUsedStateText } from "@/utils/transform";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 interface UsedDTO {
   usedId: number;
@@ -64,7 +65,7 @@ export default function AdminUsedDetailPage() {
   }
 
   if (!detail) {
-    return <div className="min-h-screen flex items-center justify-center">로딩중...</div>;
+    return <LoadingSpinner />;
   }
 
   const mainImage = detail.usedImages && detail.usedImages.length > 0 ? detail.usedImages[0] : null;
