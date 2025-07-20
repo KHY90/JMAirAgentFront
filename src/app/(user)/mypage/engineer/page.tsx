@@ -54,6 +54,13 @@ export default function MyPageEngineerApply() {
     ? new Date(info.appliedAt).toLocaleDateString("ko-KR")
     : "";
 
+  const isApplyDisabled =
+    loading ||
+    (info !== null &&
+      ["SUPERADMIN", "ADMIN", "ADMINWATCHER", "ENGINEER", "WAITING"].includes(
+        info.status
+      ));
+
   return (
     <div className="p-6 space-y-4">
       <h2 className="text-2xl font-bold">설치기사 신청</h2>
@@ -87,8 +94,8 @@ export default function MyPageEngineerApply() {
       <div className="flex justify-end">
         <button
           onClick={handleApply}
-          disabled={loading}
-          className="bg-primary text-white px-4 py-2 rounded hover:bg-blue-600"
+          disabled={isApplyDisabled}
+          className="bg-primary text-white px-4 py-2 rounded hover:bg-blue-600 disabled:opacity-50"
         >
           {loading ? "신청 중..." : "설치기사로 신청하기"}
         </button>
