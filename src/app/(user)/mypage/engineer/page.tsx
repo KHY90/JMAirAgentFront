@@ -31,7 +31,7 @@ export default function MyPageEngineerApply() {
     }
     setLoading(true);
     try {
-      await axios.post(
+      await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/api/v1/user/engineer`,
         null,
         { withCredentials: true }
