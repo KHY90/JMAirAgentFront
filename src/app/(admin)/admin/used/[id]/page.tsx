@@ -79,6 +79,12 @@ export default function AdminUsedDetailPage() {
             <p className="text-gray-500">등록일: {new Date(detail.usedPostTime).toLocaleDateString("ko-KR")}</p>
           </div>
           <div className="space-x-2">
+                        <button
+              onClick={() => router.push(`/admin/used/${id}/edit`)}
+              className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+            >
+              수정
+            </button>
             <button
               onClick={handleDelete}
               className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
