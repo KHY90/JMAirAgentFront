@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import React, { useState } from "react";
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 export default function AdminSidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,10 +11,10 @@ export default function AdminSidebar() {
   return (
     <>
       {/* 모바일 상단 햄버거 버튼 */}
-      <div className="md:hidden flex items-center justify-between p-4 bg-gray-800 text-white">
-        <div className="text-xl font-bold">관리자페이지</div>
+      <div className="md:hidden flex items-center justify-between p-4 bg-gray-800 text-white fixed top-0 left-0 right-0 z-50">
+        <Link href="/admin" className="text-xl font-bold">관리자페이지</Link>
         <button onClick={() => setIsOpen(!isOpen)}>
-          <Menu className="w-6 h-6" />
+          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
@@ -42,6 +42,14 @@ export default function AdminSidebar() {
           ))}
         </nav>
       </div>
+
+      {/* 오버레이 */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black opacity-50 z-30 md:hidden"
+          onClick={handleClose}
+        ></div>
+      )}
     </>
   );
 }

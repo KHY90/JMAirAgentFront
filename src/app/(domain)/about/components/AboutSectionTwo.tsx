@@ -14,11 +14,11 @@ export default function AboutSectionTwo() {
   return (
     <section
       ref={ref}
-      className="relative flex flex-col items-center justify-center w-full h-[90vh] bg-gray-50 px-8"
+      className="relative flex flex-col items-center justify-center w-full min-h-[80vh] md:h-[90vh] h-auto py-20 md:py-0 bg-gray-50 px-8"
     >
       <div className="text-center mb-12">
         <h2
-          className={`text-4xl md:text-5xl font-bold text-gray-800 transition-all duration-1000 ${
+          className={`text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
@@ -29,15 +29,15 @@ export default function AboutSectionTwo() {
         {features.map((feature, index) => (
           <div
             key={index}
-            className={`bg-white p-8 rounded-xl shadow-lg transform transition-all duration-1000 delay-${index * 200}
+            className={`bg-white p-6 md:p-8 rounded-xl shadow-lg transform transition-all duration-1000 delay-${index * 200}
               ${
                 isVisible
                   ? "opacity-100 translate-y-0 rotate-0"
                   : "opacity-0 translate-y-20 rotate-[-5deg]"
               }`}
           >
-            <h3 className="text-2xl font-bold text-sky-600 mb-4">{feature.title}</h3>
-            <p className="text-gray-600">{feature.description}</p>
+            <h3 className="text-xl sm:text-2xl font-bold text-sky-600 mb-4">{feature.title}</h3>
+            <p className="text-sm sm:text-base text-gray-600">{feature.description}</p>
           </div>
         ))}
       </div>

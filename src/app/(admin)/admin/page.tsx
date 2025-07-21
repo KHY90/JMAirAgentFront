@@ -42,15 +42,22 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen flex bg-gray-100">
-      <div className="flex-1 p-4 md:p-6 space-y-4">
-        <h1 className="text-2xl font-bold mb-4">관리자 페이지</h1>
-        <StatsChart data={chartData} />
-        <EstimateTable data={estimateData} isLoading={estimates.isLoading} />
-        <ServiceTable data={serviceData} isLoading={services.isLoading} />
-        <CleanTable data={cleanData} isLoading={cleans.isLoading} />
-        <MemberTable data={memberData} isLoading={members.isLoading} />
-        <NoticeTable data={noticeData} isLoading={notices.isLoading} />
+    <div className="min-h-screen bg-gray-100">
+      <div className="p-4 md:p-6 space-y-6">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800">관리자 대시보드</h1>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="col-span-1 lg:col-span-2">
+            <StatsChart data={chartData} />
+          </div>
+          <EstimateTable data={estimateData} isLoading={estimates.isLoading} />
+          <ServiceTable data={serviceData} isLoading={services.isLoading} />
+          <CleanTable data={cleanData} isLoading={cleans.isLoading} />
+          <MemberTable data={memberData} isLoading={members.isLoading} />
+          <div className="lg:col-span-2">
+            <NoticeTable data={noticeData} isLoading={notices.isLoading} />
+          </div>
+        </div>
       </div>
     </div>
   );

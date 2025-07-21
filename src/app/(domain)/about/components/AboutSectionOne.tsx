@@ -8,10 +8,10 @@ export default function AboutSectionOne() {
   return (
     <section
       ref={ref}
-      className="relative flex items-center justify-center w-full h-[90vh] overflow-hidden"
+      className="relative flex items-center justify-center w-full min-h-[80vh] md:h-[90vh] h-auto py-20 md:py-0 overflow-hidden"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-sky-100 to-white z-0" />
-      <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-12 px-8">
+      <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 px-8">
         <div
           className={`transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
@@ -22,12 +22,12 @@ export default function AboutSectionOne() {
             alt="JMAir Character"
             width={300}
             height={300}
-            className="rounded-full shadow-2xl"
+            className="rounded-full shadow-2xl w-[200px] h-[200px] md:w-[300px] md:h-[300px]"
           />
         </div>
         <div className="text-center md:text-left">
           <h2
-            className={`text-4xl md:text-5xl font-bold text-gray-800 mb-4 transition-all duration-1000 delay-200 ${
+            className={`text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4 transition-all duration-1000 delay-200 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
           >
@@ -36,7 +36,7 @@ export default function AboutSectionOne() {
             진명에어컨 에이전트의 약속
           </h2>
           <p
-            className={`text-lg text-gray-600 max-w-md transition-all duration-1000 delay-400 ${
+            className={`text-base sm:text-lg text-gray-600 max-w-md transition-all duration-1000 delay-400 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
           >
