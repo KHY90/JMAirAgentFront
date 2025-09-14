@@ -10,7 +10,9 @@ export function useDeleteAccount() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const deleteAccount = async () => {
-    const confirmDelete = window.confirm("정말로 회원 탈퇴를 진행하시겠습니까?\n탈퇴 후 복구할 수 없습니다.");
+    const confirmDelete = window.confirm(
+      "정말로 회원 탈퇴를 진행하시겠습니까?\n탈퇴 후 복구할 수 없습니다."
+    );
     if (!confirmDelete) return;
 
     setIsLoading(true);
